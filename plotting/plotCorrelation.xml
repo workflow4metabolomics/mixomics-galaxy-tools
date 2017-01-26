@@ -1,0 +1,18 @@
+<tool id="mixomics_imgCor" name="Correlation Plot">
+   <description>image maps of correlation matrices between two data sets</description>
+   <command interpreter="Rscript">plotCorrelation.r
+      $inputX
+      $inputY
+      $output
+   </command>
+   <inputs>
+      <param name="inputX" type="data" label="Input File (X)" format="tabular"/>
+      <param name="inputY" type="data" label="Input File (Y)" format="tabular"/>
+   </inputs>
+   <outputs>
+      <data name="output" format="png"/>
+   </outputs>
+
+   <help>
+   </help>
+</tool>

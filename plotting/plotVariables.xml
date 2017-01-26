@@ -1,0 +1,42 @@
+<tool id="mixomics_plotVariables" name="Plot Variables">
+   <description>provides variable representation for RCC, PLS and PCA analysis</description>
+   <command interpreter="Rscript">plotVariables.r
+      $resultRData
+      $output
+      $dimensionX
+      $dimensionY
+      $xlabelVar
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
+      <param name="dimensionX" type="integer" label="X-axis dimension" min="1" max="10" value="1" />
+      <param name="dimensionY" type="integer" label="Y-axis dimension" min="1" max="10" value="2" />
+      <param name="xlabelVar" type="boolean" label="Show Variable names in plot" />
+   </inputs>
+   <outputs>
+      <data name="output" format="png" />
+   </outputs>
+
+   <help>
+===========
+Description
+===========
+
+
+-----------
+Usage
+-----------
+Input result (Rdata)
+   a result object from a MixOmics function e.g. PCA, PLS, IPCA, CCA, Multilevel.
+
+X-axis dimension
+   index of the component to show on the x-axis, e.g. if a PCA function was ran with ncomp=3, you can choose 1, 2, or 3 to plot on the x-axis.
+
+Y-axis dimension
+   index of the component to show on the y-axis, e.g. if a PCA function was ran with ncomp=3, you can choose 1, 2, or 3 to plot on the y-axis.
+
+Show Variable names
+   select this to plot using the variables names instead of circles.
+
+   </help>
+</tool>

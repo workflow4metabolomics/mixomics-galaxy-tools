@@ -1,0 +1,37 @@
+<tool id="mixOmics_plotArrowPlot" name="Arrow Plot">
+   <description>scatter diagram for a paired coordinates</description>
+   <command interpreter="Rscript">plotArrowPlot.r
+      $resultRData
+      $output
+      $dimX
+      $dimY
+      #if $classes_option.classes
+        $classes_option.classesFile
+      #end if
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" 
+            format="data" help="Result object from mixOmics functions"/>
+      <conditional name="classes_option">
+        <param name="classes" type="boolean" label="Color by class"/>
+        <when value="true">
+          <param name="classesFile" type="data" label="Input classes file" format="csv" help="File with one class label for each row in the original dataset (x)"/>
+        </when>
+        <when value="false"></when>
+      </conditional>
+      <param name="dimX" label="X-axis dimension" type="integer" min="0" max="10" value="1"
+            help="value should be &lt;= the number of components used in the statistical function analysis"/>
+      <param name="dimY" label="Y-axis dimension" type="integer" min="0" max="10" value="2"
+            help="value should be &lt;= the number of components used in the statistical function analysis"/>
+   </inputs>
+   <outputs>
+      <data name="output" format="png"/>
+   </outputs>
+   <help>
+============
+Description
+============
+
+A scatter diagram for a paired of coordinates.
+   </help>
+</tool>

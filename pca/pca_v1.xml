@@ -1,0 +1,32 @@
+<tool id="mixomics_pca" name="PCA">
+   <description>mixOmics package - Principal Component Analysis</description>
+   <command interpreter="python">mixOmics_pca.py 
+      -t $title 
+      -M $methodology 
+      -m $method 
+      -n $ncomp 
+      -w ${__root_dir__}/tools/mixOmics
+      -o $samples12
+      -z $variables12
+   </command>
+   <inputs>
+      <param name="title" type="text" label="Project Name" />
+      <param name="fileX" type="data" label="File X" format="tabular"/>
+      <param name="methodology" type="select" label="Methodology">
+         <option value="pca">PCA</option>
+         <option value="ipca">IPCA</option>
+      </param>
+      <param name="method" type="select" label="Method">
+         <option value="pca">pca</option>
+      </param>
+      <param name="ncomp" type="text" label="Number of components"/>
+   </inputs>
+   <outputs>
+      <data format="png" name="samples12" />
+      <data format="png" name="variables12" />
+   </outputs>
+
+   <help>
+   This tool uses the mixOmics R package to perform Principal Component Analysis.
+   </help>
+</tool>

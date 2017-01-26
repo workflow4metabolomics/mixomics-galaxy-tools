@@ -1,0 +1,59 @@
+<tool id="mixomics_ipca" name="IPCA" version="1.1">
+   <description>mixOmics package - Independent Principal Component Analysis</description>
+   <command interpreter="Rscript">mixOmics_ipca.r
+      $input
+      $resultRData
+      $loadingVectors
+      $principalComponents
+      $kurtosis
+      $ncomp
+      $mode
+      $sIPCA_option.sparse
+      #if $sIPCA_option.sparse
+         $sIPCA_option.keepX.replace(",", " ")
+      #end if
+   </command>
+   <inputs>
+      <param name="input" type="data" label="Input File (X)" format="tabular" help="X dataset"/>
+      <param name="ncomp" type="integer" label="Number of components" min='0' max='10' value='3'/>
+      <param name="mode" type="select" label="Mode of computation">
+         <option value="deflation" select="True">Deflation</option>
+         <option value="parallel">Parallel</option>
+      </param>
+      <conditional name="sIPCA_option">
+         <param name="sparse" type="boolean" label="Sparse IPCA"/>
+         <when value="true">
+            <param name="keepX" type="text" label="How many variables to keep on each dimension"
+                   value="5 5 5"
+                   help="Separate values with a space or comma"/>
+         </when>
+         <when value="false"/>
+      </conditional>
+   </inputs>
+   <outputs>
+      <data name="loadingVectors" format="csv"/>
+      <data name="principalComponents" format="csv"/>
+      <data name="kurtosis" format="csv"/>
+      <data name="resultRData" format="data"/>
+   </outputs>
+
+   <help>
+===========
+Description
+===========
+
+This tool uses the mixOmics R package to perform Independent Principal Component Analysis (IPCA) on the given data matrix, a combination of Principal Component Analysis and Independent Component Analysis.
+
+----------
+Usage
+----------
+
+input File (X)
+   a tabular file which provides the data for the IPCA analysis, it can contain missing values.
+
+Number of components
+   if the data is complete, this parameter decides the number of components ...
+   </help>
+
+</tool>
+

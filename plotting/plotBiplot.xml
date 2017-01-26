@@ -1,0 +1,39 @@
+<tool id="mixomics_plotBiplot" name="BiPlot">
+   <description>representing both the observations and variables of multivariate data</description>
+   <command interpreter="Rscript">plotBiplot.r
+      $resultRData
+      $output
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
+   </inputs>
+   <outputs>
+      <data name="output" format="png" />
+   </outputs>
+
+   <help>
+===========
+Description
+===========
+
+A biplot displays information on both samples and variables. You can interpret a biplot in the following ways:
+
+* The cosine of the angle between a vector and an axis indicates the 
+  importance of the contribution of he corresponding variable to the axis dimension.
+
+* The cosine of the angel betwen vectors indicates correlation between 
+  variables. Highly correlated variables point in the same direction; 
+  uncorrelated variables are at right angles to each other.
+
+* Points that are close to each other in the biplot represent observations with similar values.
+
+* You can approximate the coordinates of an observation by projecting 
+  the point onto the variable vectors with the biplot.
+
+-----------
+Usage
+-----------
+Input result (Rdata)
+   The Rdata object output from one of the mixOmics functions e.g. PCA, PLS, RCC ...
+   </help>
+</tool>

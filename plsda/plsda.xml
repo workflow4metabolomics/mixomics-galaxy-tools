@@ -1,0 +1,44 @@
+<tool id="mixomics_plsda" name="PLS-DA">
+   <description>mixOmics package - Partial Lease Square Discriminant Analysis</description>
+   <command interpreter="Rscript">mixOmics_plsda.r
+      $inputX
+      $inputY
+      $loadingVectorsX
+      $latentVariablesX
+      $latentVariablesY
+      $variableNamesX
+      $variableNamesY
+      $variableNamesIndiv
+      $result
+      $ncomp
+      $sPLSDA_option.sparse
+      #if $sPLSDA_option.sparse
+         $sPLSDA_option.keepX.replace(",", " ")
+      #end if
+   </command>
+   <inputs>
+      <param name="inputX" type="data" label="Input File (X)" format="csv"/>
+      <param name="inputY" type="data" label="Input File (Y)" format="csv"/>
+      <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3"/>
+      <conditional name="sPLSDA_option">
+         <param name="sparse" type="boolean" label="Sparse PLS-DA"/>
+         <when value="true">
+            <param name="keepX" type="text" label="How many variables to keep on each dimension for X"
+                   help="(e.g. 10 10 10) Separate values with a space"/>
+         </when>
+         <when value="false">
+         </when>
+      </conditional>
+   </inputs>
+   <outputs>
+      <data name="loadingVectorsX" format="csv"/>
+      <data name="latentVariablesX" format="csv"/>
+      <data name="latentVariablesY" format="csv"/>
+      <data name="variableNamesX" format="csv"/>
+      <data name="variableNamesY" format="csv"/>
+      <data name="variableNamesIndiv" format="csv"/>
+      <data name="result" format="data"/>
+   </outputs>
+   <help>
+   </help>
+</tool>

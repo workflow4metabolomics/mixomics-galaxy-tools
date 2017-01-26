@@ -1,0 +1,48 @@
+<tool id="mixomics_pca" name="PCA">
+   <description>mixOmics package - Principal Component Analysis</description>
+   <command interpreter="Rscript">mixOmics_pca.r
+      $input
+      $loadingVectors
+      $ncomp
+      $sparse
+      $center
+      $scaled
+   </command>
+   <inputs>
+      <param name="input" type="data" label="Input File (X)" format="tabular"/>
+      <param name="ncomp" type="text" label="Number of components"/>
+      <param name="sparse" type="boolean" label="Sparse PCA"/>
+      <param name="center" type="boolean" label="Center" />
+      <param name="scaled" type="boolean" label="Scaled" />
+   </inputs>
+   <outputs>
+      <data name="loadingVectors" format="csv" />
+   </outputs>
+
+   <help>
+===========
+Description
+===========
+
+This tool uses the mixOmics R package to perform Principal Component Analysis.
+
+-----------
+Usage
+-----------
+
+input File (X)
+   a tabular file which provides the data for the principal components analysis. It can contain missing values.
+
+Number of components
+   if the data is complete, this parameter decides the number of components and associated eigenvalues to display from the ``pcasvd`` algorithm. If the data has missing values, this parameter gives the number of components to keep to perform the reconstitution of hte data using the NIPALS algorithm.
+
+Sparse PCA
+   perform the Sparse PCA algorithm with feature selection.
+
+center
+   if selected, the variables will be shifted to be zero-centered.
+
+scale
+   if selected, this inidcates that hte variables should be scaled to have unit variance before the analysis is performed. The default is FALSE for consistency with ``prcmp`` function, but in general scaling is advisable.
+   </help>
+</tool>

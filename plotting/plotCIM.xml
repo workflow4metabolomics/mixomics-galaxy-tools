@@ -1,0 +1,25 @@
+<tool id="mixOmics_plotCIM" name="CIM">
+   <description>Clustered Image Maps</description>
+   <command interpreter="Rscript">plotCIM.r
+      $resultRData
+      $output
+      $dimX
+      $dimY
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
+      <param name="dimX" label="X-axis dimension" type="integer" min="1" max="10" value="1"
+            help="value should be &lt;= the number of components used in the statistical function analysis"/>
+      <param name="dimY" label="Y-axis dimension" type="integer" min="1" max="10" value="2"
+            help="value should be &lt;= the number of components used in the statistical function analysis"/> 
+   </inputs>
+   <outputs>
+      <data name="output" format="png"/>
+   </outputs>
+   <help>
+===========
+Description
+===========
+This function generates color-coded Clustered Image Maps (CIMs) ('heat maps') to represent 'high-dimensional' data sets.
+   </help>
+</tool>

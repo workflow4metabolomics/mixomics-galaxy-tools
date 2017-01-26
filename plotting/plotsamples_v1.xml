@@ -1,0 +1,45 @@
+<tool id="mixomics_plotsamples" name="Plot Samples" version="1.0">
+   <description>mixOmics package - Plot Samples</description>
+   <command interpreter="Rscript">plotsamples.r
+      $resultRData
+      $output12
+      $output13
+      $output14
+      black
+      noclass
+      <!--#$keepX-->
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
+   </inputs>
+   <outputs>
+      <data name="output12" format="png" />
+   </outputs>
+
+   <help>
+===========
+Description
+===========
+
+This tool uses the mixOmics R package to perform Principal Component Analysis.
+
+-----------
+Usage
+-----------
+
+input File (X)
+   a tabular file which provides the data for the principal components analysis. It can contain missing values.
+
+Number of components
+   if the data is complete, this parameter decides the number of components and associated eigenvalues to display from the ``pcasvd`` algorithm. If the data has missing values, this parameter gives the number of components to keep to perform the reconstitution of hte data using the NIPALS algorithm.
+
+Sparse PCA
+   perform the Sparse PCA algorithm with feature selection.
+
+center
+   if selected, the variables will be shifted to be zero-centered.
+
+scale
+   if selected, this inidcates that hte variables should be scaled to have unit variance before the analysis is performed. The default is FALSE for consistency with ``prcmp`` function, but in general scaling is advisable.
+   </help>
+</tool>

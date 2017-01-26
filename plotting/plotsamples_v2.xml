@@ -1,0 +1,21 @@
+<tool id="mixomics_plotsamples" name="Plot Samples">
+   <description>mixOmics package - Plot Samples</description>
+   <command interpreter="Rscript">plotsamples.r
+      $resultRData
+      $output
+      $dimensionX
+      $dimensionY
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" format="data"/>
+      <param name="dimensionX" type="integer" label="X-axis dimension"/>
+      <param name="dimensionY" type="integer" label="Y-axis dimension"/>
+   </inputs>
+   <outputs>
+      <data name="output" format="png" />
+   </outputs>
+
+   <help>
+Part of the mixOmics package. Produces a scatter plot of the samples.
+   </help>
+</tool>

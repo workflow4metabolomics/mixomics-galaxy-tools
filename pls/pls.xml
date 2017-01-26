@@ -1,0 +1,84 @@
+<tool id="mixomics_pls" name="PLS" version="0.3">
+   <description>mixOmics package - Partial Least Square Analysis</description>
+   <command interpreter="Rscript">mixOmics_pls.r
+      $inputX
+      $inputY
+      <!-- TODO: Composite datatype -->
+      $loadingVectorsX
+      $loadingVectorsY
+      $latentVariablesX
+      $latentVariablesY
+      $resultRData
+      $ncomp
+      $sPLS_option.mode
+      $sPLS_option.sparse
+      #if $sPLS_option.sparse
+         $sPLS_option.keepX.replace(",", " ")
+         $sPLS_option.keepY.replace(",", " ")
+      #end if
+   </command>
+   <inputs>
+      <param name="inputX" type="data" label="Input File (X)" format="tabular"/>
+      <param name="inputY" type="data" label="Input File (Y)" format="tabular"/>
+      <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3"/>
+      <conditional name="sPLS_option">
+         <param name="sparse" type="boolean" label="Sparse PLS"/>
+         <when value="true">
+            <param name="mode" type="select" label="Mode of computation">
+               <option value="regression" select="True">Regression</option>
+               <option value="canonical">Canonical</option>
+            </param> 
+            <param name="keepX" type="text" label="How many variables to keep on each dimension for X"
+                   help="(e.g. 50 50 50) Separate values with a space"/>
+            <param name="keepY" type="text" label="How many variables to keep on each dimension for Y"
+                   help="(e.g. 10 10 10) Separate values with a space"/>
+         </when>
+         <when value="false">
+            <param name="mode" type="select" label="Mode of computation">
+               <option value="regression" select="True">Regression</option>
+               <option value="canonical">Canonical</option>
+               <option value="invariant">Invariant</option>
+               <option value="classic">Classic</option>
+            </param>
+         </when>
+      </conditional>
+   </inputs>
+   <outputs>
+      <data name="loadingVectorsX" format="csv" />
+      <data name="loadingVectorsY" format="csv" />
+      <data name="latentVariablesX" format="csv" />
+      <data name="latentVariablesY" format="csv" />
+      <data name="resultRData" format="data" />
+   </outputs>
+
+   <help>
+===========
+Description
+===========
+
+This tool uses the mixOmics R package to perform Partial Least Squares.
+
+-----------
+Usage
+-----------
+
+input File (X)
+   a tabular file which provides the data for the principal components analysis. It can contain missing values.
+
+input File (Y)
+   a tabular file which provides the responses (for multi-response models). Missing values (NAs) are allowed.
+
+Number of components
+   if the data is complete, this parameter decides the number of components and associated eigenvalues to display from the ``pcasvd`` algorithm. If the data has missing values, this parameter gives the number of components to keep to perform the reconstitution of hte data using the NIPALS algorithm.
+
+mode {regression|canonical|invariant|classic}
+   type of PLS algorithm to use for the computation, there are four available:
+   * regression - PLS regression
+   * canonical - PLS canonical analysis
+   * invariant - redudancy analysis (not available if Sparse PLS is selected)
+   * classic - classical PLS algorithm
+
+Sparse PLS
+   perform the Sparse PLS algorithm with feature selection.
+   </help>
+</tool>

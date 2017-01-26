@@ -1,0 +1,23 @@
+<tool id="mixOmics_plotNetwork" name="Network Plot">
+   <description>display relevance associations for network for RCC and PLS analysis.</description>
+   <command interpreter="Rscript">plotNetwork.r
+      $resultRData
+      $output
+      $threshold
+   </command>
+   <inputs>
+      <param name="resultRData" type="data" label="Input result (Rdata)" 
+            format="data" help="Result object from mixOmics functions"/>
+      <param name="threshold" label="Threshold" type="float" min="0" max="1" value="0.8"/>
+   </inputs>
+   <outputs>
+      <data name="output" format="png"/>
+   </outputs>
+   <help>
+============
+Description
+============
+
+A scatter diagram for a paired of coordinates.
+   </help>
+</tool>

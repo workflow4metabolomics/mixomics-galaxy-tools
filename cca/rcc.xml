@@ -1,0 +1,29 @@
+<tool id="mixomics_rcc" name="RCC">
+   <description>mixOmics package - Regularized Canonical Correlation Analysis</description>
+   <command interpreter="Rscript">mixOmics_cca.r
+      $inputX
+      $inputY
+      $lambda1
+      $lambda2
+      $correlation
+      $variatesX
+      $variatesY
+      $result
+      $ncomp
+   </command>
+   <inputs>
+      <param name="inputX" type="data" label="Input File (X)" format="csv"/>
+      <param name="inputY" type="data" label="Input File (Y)" format="csv"/>
+      <param name="lambda1" type="float" label="Lambda 1 value" min="0" value="0.064"/>
+      <param name="lambda2" type="float" label="Lambda 2 value" min="0" value="0.008"/>
+      <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3"/>
+   </inputs>
+   <outputs>
+      <data name="correlation" format="csv"/>
+      <data name="variatesX" format="csv"/>
+      <data name="variatesY" format="csv"/>
+      <data name="result" format="data"/>
+   </outputs>
+   <help>
+   </help>
+</tool>
