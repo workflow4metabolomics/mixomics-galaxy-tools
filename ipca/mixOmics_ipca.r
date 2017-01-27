@@ -2,14 +2,18 @@
 
 ################################################################################
 #
-# MixOmics PLS function
+# mixOmics PLS function
 #
 # This script is written especially for the mixOmics web-interface powered 
-# using the Galaxy workflow system.
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.pls): Sébastien Déjean, Ignacio González and Kim-Anh Lê Cao.
 #
 # Parameters
 #     fileX          path to datafile
-#     
 #
 ################################################################################
 

@@ -4,8 +4,13 @@
 #
 # Variable representation for the first 3 dimensions
 #
-# Note: This script has been modified from 'mixOmics.r' that was created for
-#       the initial web-interface.
+# This script is written specifically for the mixOmics web-interface
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.plotVar): Sébastien Déjean and Ignacio González.
 #
 # Arguments:
 #   result      object of class inheriting from mixOmics functions
@@ -40,8 +45,6 @@ outputFile <- args[ARG_OUTPUTFILE];
 comp <- c(as.numeric(args[ARG_COMP1]), as.numeric(args[ARG_COMP2]));
 xlabelVar <- as.logical(args[ARG_XLABELVAR]);
 
-cat("xlabelVar=", xlabelVar, "\n");
-
 ## loading Rdata object
 if (file.exists(resultFile)) {
    tryCatch({
@@ -54,12 +57,23 @@ if (file.exists(resultFile)) {
    });
 }
 
-#col <- 'blue';
-  
 ## plotting variables
 bitmap(file=outputFile, type="png16m", width=IMG.WIDTH, height=IMG.HEIGHT, units="px");
 tryCatch({
-   plot <- plotVar(result, comp=comp, var.label=xlabelVar, X.label=xlabelVar, Y.label=xlabelVar, cex=rep(0.75, length(comp)));
+   if ("Y" %in% names(result)) {
+     if ("keepX" %in% names(result)) {
+       cex = 0.75;
+     }
+     plot <- plotVar(result, comp=comp, var.label=xlabelVar, X.label=xlabelVar, Y.label=xlabelVar);
+   } else if ("kurtosis" %in% names(result)) {
+     ##IPCA function
+     if (xlabelVar) { 
+       cex = rep(0.75,1); 
+     }
+     plot <- plotVar(result, comp=comp, var.label=xlabelVar);
+   } else {
+     plot <- plotVar(result, comp=comp, var.label=xlabelVar, pch=c(16), col=c('red'));
+   }
 }, warning = function(w) {
    print(paste("Warning: ", w));
 }, error = function(err) {

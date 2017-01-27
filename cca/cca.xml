@@ -1,0 +1,72 @@
+<tool id="mixomics_cca" name="CCA">
+  <description></description>
+  <command interpreter="Rscript">mixOmics_cca.r
+    $inputX
+    $inputY
+    $lambda1
+    $lambda2
+    $correlation
+    $variatesX
+    $variatesY
+    $result
+    $ncomp
+  </command>
+  <inputs>
+    <param name="inputX" type="data" label="Input File (X)" format="tabular"/>
+    <param name="inputY" type="data" label="Input File (Y)" format="tabular"/>
+    <param name="lambda1" type="float" label="Lambda 1 value" min="0" value="0.0"/>
+    <param name="lambda2" type="float" label="Lambda 2 value" min="0" value="0.0"/>
+    <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="2"/>
+  </inputs>
+  <outputs>
+    <data name="correlation" format="csv" label="${tool.name} on ${on_string} (correlation)"/>
+    <data name="variatesX" format="csv" label="${tool.name} on ${on_string} (variatesX)"/>
+    <data name="variatesY" format="csv" label="${tool.name} on ${on_string} (variatesY)"/>
+    <data name="result" format="data" label="${tool.name} on ${on_string} (R data object)"/>
+  </outputs>
+  <help>
+mixOmics R package
+
+===========
+Description
+===========
+
+This tool performs the regularised extension of the Canonical Correlation Analysis (CCA) to seek correlations between two data matrices. CCA is a multivariate exploratory approach to highlight correlation between two data sets acquired on the same experimental units. In the same vein as PCA, CCA seeks for linear combinations of the variables (called canonical variates to reduce the dimension of the data sets, but this time while trying to maximize the correlation between the two variates (the canonical correlation).
+
+Similar to PCA, the user has to choose the number of canonical variates pair (ncomp) to summarize as much information as possible.
+
+Visit the mixOmics_ for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/methods/rcca/
+
+----
+
+Usage (web-interface version)
+=============================
+
+Input File (X)
+  a tabular file which provides the observations on the X variables for analysis. It can contain missing values (NAs).
+
+Input File (Y)
+  a tabular file which provides the observations on the Y variables for analysis. It can contain missing values (NAs).
+
+Lambda 1/2 value
+  a non negative real number. The regularisation parameter for the X and Y data. Defaults to lambda1=lambda2=0
+
+Number of components
+  the number of components to include in the model. Defaults to 2.
+
+----
+
+Output
+======
+
+There are four output files from this tool:
+
+1. Correlation (csv format) - a list containing the canonical correlations
+2. Variates for X (csv format) - list of the canonical variates for X
+3. Variates for Y (csv format) - list of the canonical variates for Y
+4. R data object (used for plotting)
+
+  </help>
+</tool>

@@ -2,10 +2,15 @@
 
 ###############################################################################
 #
-# Clustered Image Maps Plots
+# mixOmics Clustered Image Maps Plots
 #
-# Note: This script has been modified from 'mixOmics.r' that was created for
-#       the initial web-interface.
+# This script is written specifically for the mixOmics web-interface
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author: Ignacio Gonzalez
 #
 # Arguments:
 #   result      object of class inheriting from mixOmics functions
@@ -27,7 +32,7 @@ ARG_COMP2 <- 4;
 
 args <- commandArgs(TRUE);
 if (length(args) < NUM_ARGS) {
-   stop("Not enough parameters passed in");
+  stop("Not enough parameters passed in");
 }
 resultFile <- args[ARG_RESULT];
 outputFile <- args[ARG_OUTPUTFILE];
@@ -35,18 +40,18 @@ comp <- c(as.numeric(args[ARG_COMP1]), as.numeric(args[ARG_COMP2]));
 
 ## loading Rdata object
 if (file.exists(resultFile)) {
-   tryCatch({
-      load(resultFile);
-   }, error = function(err) {
-      stop(paste("ERROR occured when loading the result object:\n\n", err));
-   });
+  tryCatch({
+    load(resultFile);
+  }, error = function(err) {
+    stop(paste("ERROR occured when loading the result object:\n\n", err));
+  });
 }
 
 ## plotting variables
 bitmap(file=outputFile, type="png16m", width=IMG.WIDTH, height=IMG.HEIGHT, units="px");
 tryCatch({
-   plot <- cim(result, comp = comp, margins = MARGIN);
+  plot <- cim(result, comp = comp, margins = MARGIN);
 }, error = function(err) {
-   stop(paste("ERROR while generating the arrow plot:\n\n", err));
+  stop(paste("ERROR while generating the arrow plot:\n\n", err));
 });
 dev.off();

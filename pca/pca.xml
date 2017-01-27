@@ -1,64 +1,92 @@
-<tool id="mixomics_pca" name="PCA">
-   <description>mixOmics package - Principal Component Analysis</description>
-   <command interpreter="Rscript">mixOmics_pca.r
-      $input
-      $loadingVectors <!-- TODO: composite datatype? -->
-      $principalComponents <!-- TODO: composite datatype? -->
-      $resultRData
-      $ncomp
-      $centered
-      $scaled
-      $sPCA_option.sparse
-      #if $sPCA_option.sparse
-         $sPCA_option.keepX.replace(",", " ")
-      #end if
-   </command>
-   <inputs>
-      <param name="input" type="data" label="Input File (X)" format="tabular"/>
-      <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3"/>
-      <conditional name="sPCA_option">
-         <param name="sparse" type="boolean" label="Sparse PCA"/>
-         <when value="true">
-            <!-- TODO: valdiator to check number of dimensions match ncomp value -->
-            <!-- TODO: alternatively can we use <repeat> that depends on value from ncomp? -->
-            <param name="keepX" type="text" label="How many variables to keep on each dimension"
-                   help="Separate values with a space"/>
-         </when>
-         <when value="false"></when>
-      </conditional>
-      <param name="scaled" type="boolean" label="Scale variables to have unit variance" checked="true" />
-      <param name="centered" type="boolean" label="Center variables to zero origin" checked="true"/>
-   </inputs>
-   <outputs>
-      <data name="loadingVectors" format="csv" />
-      <data name="principalComponents" format="csv" />
-      <data name="resultRData" format="data" />
-   </outputs>
+<tool id="mixomics_pca" name="PCA" version="1.2">
+  <description></description>
+  <command interpreter="Rscript">mixOmics_pca.r
+    $input
+    $loadingVectors <!-- TODO: composite datatype? -->
+    $principalComponents <!-- TODO: composite datatype? -->
+    $resultRData
+    $ncomp
+    $centered
+    $scaled
+    $sPCA_option.sparse
+    #if $sPCA_option.sparse
+      $sPCA_option.keepX.replace(",", " ")
+    #end if
+  </command>
+  <inputs>
+    <param name="input" type="data" label="Input File (X)" format="tabular"/>
+    <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3"/>
+    <conditional name="sPCA_option">
+      <param name="sparse" type="boolean" label="Sparse PCA"/>
+      <when value="true">
+        <!-- TODO: valdiator to check number of dimensions match ncomp value -->
+        <!-- TODO: alternatively can we use <repeat> that depends on value from ncomp? -->
+        <param name="keepX" type="text" label="How many variables to keep on each dimension"
+             help="Separate values with a space"/>
+      </when>
+      <when value="false"></when>
+    </conditional>
+    <param name="scaled" type="boolean" label="Scale variables to have unit variance" checked="true" />
+    <param name="centered" type="boolean" label="Center variables to zero origin" checked="true"/>
+  </inputs>
+  <outputs>
+    <data name="loadingVectors" format="csv" label="${tool.name} on ${on_string} (loading vectors)"/>
+    <data name="principalComponents" format="csv" label="${tool.name} on ${on_string} (principal components)"/>
+    <data name="resultRData" format="data" label="${tool.name} on ${on_string} (R data object)"/>
+  </outputs>
 
-   <help>
+  <help>
+
+mixOmics R package
+
 ===========
-Description
+DESCRIPTION
 ===========
 
-This tool uses the mixOmics R package to perform Principal Component Analysis.
+This tool performs a Principal Component Analysis (PCA) on the given data using the mixOmics R package. 
+PCA is a mathematical procedure that uses orthogonal linear transformation of data from possibly correlated variables into uncorrelated principal components (PCs). The first principal component explains as much of the variability in the data as possible, and each following PC explains as much of the remaining variability as possible. Only the PCs which explain the most variance are retained. This is why choosing the number of dimensions or component (ncomp) is crucial. 
 
------------
-Usage
------------
+If the data is complete and has no missing values, the
+function uses Singular Value Decomposition, if however, there are missing values,
+the function uses the NIPALS algorithm.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/methods/spca/
+
+----
+
+Usage (web-interface version)
+=============================
 
 input File (X)
-   a tabular file which provides the data for the principal components analysis. It can contain missing values.
+  a tabular file which provides the data for the principal components analysis. It can contain missing values.
 
 Number of components
-   if the data is complete, this parameter decides the number of components and associated eigenvalues to display from the ``pcasvd`` algorithm. If the data has missing values, this parameter gives the number of components to keep to perform the reconstitution of hte data using the NIPALS algorithm.
+  if the data is complete, this parameter decides the number of components and associated eigenvalues to display from the ``pcasvd`` algorithm. If the data has missing values, this parameter gives the number of components to keep to perform the reconstitution of hte data using the NIPALS algorithm.
 
 Sparse PCA
-   perform the Sparse PCA algorithm with feature selection.
+  perform the Sparse PCA algorithm with feature selection.
 
+  when selected, you will need to specify **how many variables to keep on each dimension**, this is a comma or space separated list of numbered values. The number of elements to put is the same as what is specified in the **number of components** field. For example, if *number of components* =3 then this field will have (50 50 10).
+  
 center
-   if selected, the variables will be shifted to be zero-centered.
+  if selected, the variables will be shifted to be zero-centered.
 
 scale
-   if selected, this inidcates that hte variables should be scaled to have unit variance before the analysis is performed. The default is FALSE for consistency with ``prcmp`` function, but in general scaling is advisable.
-   </help>
+  if selected, this inidcates that hte variables should be scaled to have unit variance before the analysis is performed. The default is FALSE for consistency with ``prcmp`` function, but in general scaling is advisable.
+
+-------
+
+Outputs
+=======
+
+There are three output files from this tool:
+
+1.  Loading vectors (csv format) - matrix of variable loadings where the columns contain the eigenvectors.
+2.  Principal components (csv format)
+3.  R data object of the result (used for plotting)
+
+
+  </help>
 </tool>

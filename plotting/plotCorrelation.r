@@ -2,10 +2,15 @@
 
 ###############################################################################
 #
-# Correlation Plot
+# mixOmics Correlation Plot
 #
-# Note: This script has been modified from 'mixOmics.r' that was created for
-#       the initial web-interface.
+# This script is written specifically for the mixOmics web-interface
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.imgCor): Sébastien Déjean, Ignacio González and Pierre Monget.
 #
 # Arguments:
 #   fileX       path location to dataset X
@@ -34,12 +39,12 @@ outputFile <- args[ARG_OUTPUTFILE];
 
 ## Loading in data files
 tryCatch({
-   X <- read.table(fileX, check.names=F, header=T);
+   X <- data.matrix(read.table(fileX, check.names=F, header=T));
 }, error=function(err) {
    stop(paste("There was an error when trying to read in the data(X).\n", err));
 });
 tryCatch({
-   Y <- read.table(fileY, check.names=F, header=T);
+   Y <- data.matrix(read.table(fileY, check.names=F, header=T));
 }, error=function(err) {
    stop(paste("There was an error when trying to read in the data(Y).\n", err));
 });

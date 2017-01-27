@@ -1,0 +1,108 @@
+<tool id="mixomics_multilevel" name="Multilevel" version="0.1">
+  <description></description>
+  <command interpreter="Rscript">mixOmics_multilevel.r
+    $inputX
+    $inputCond
+    $inputSample
+    $loadingVectorsX
+    $loadingVectorsY
+    $latentVariablesX
+    $latentVariablesY
+    $resultRData
+    $ncomp
+    $methodology.method
+    $keepX.replace(",", " ")
+    #if $methodology.method == 'spls'
+      $methodology.keepY.replace(",", " ")
+      $methodology.inputY
+    #end if
+  </command>
+  <inputs>
+    <param name="inputX" type="data" label="Input File (X)" format="tabular"/>
+    <param name="inputCond" type="data" label="Input File (class)" format="tabular" 
+           help="a class file with one column for one-factor discrete outcome, or a two columns for two-factor discrete outcome (see usage below for more information)"/>
+    <param name="inputSample" type="data" label="Input File (sample)" format="tabular"
+           help="indicate sample groups (see usage below for more information)" />
+    <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3" />
+    <param name="keepX" type="text" label="How many variables to keep on each dimension for X"
+           help="(e.g. 10 10 10) Separate values with a space, number of dimensions = number of components set above"/>
+ 
+    <conditional name="methodology">
+      <param name="method" type="select" label="Select analysis method">
+        <option value="splsda" select="True">sPLS-DA</option>
+        <option value="spls">sPLS</option>
+      </param>
+      <when value="spls">
+        <param name="inputY" type="data" label="Input File (Y)" format="tabular"/>
+        <param name="keepY" type="text" label="How many variables to keep on each dimension for Y"
+               help="(e.g. 10 10 10) Separate values with a space, number of dimensions = number of components set above"/>
+      </when>
+      <when value="splsda"></when>
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <data name="loadingVectorsX" format="tabular" label="${tool.name} on ${on_string} (X loading vectors)"/>
+    <data name="loadingVectorsY" format="tabular" label="${tool.name} on ${on_string} (Y loading vectosr)"/>
+    <data name="latentVariablesX" format="tabular" label="${tool.name} on ${on_string} (X latent variables)"/>
+    <data name="latentVariablesY" format="tabular" label="${tool.name} on ${on_string} (Y latent variables)"/>
+    <data name="resultRData" format="data" label="${tool.name} on ${on_string} (R data object)"/>
+  </outputs>
+
+  <help>
+
+mixOmics R package
+
+===========
+Description
+===========
+
+This tool uses the mixOmics R package to perform Multilevel analysis for repeated measurements (cross-over design).
+
+The analysis of repeated measurements is performed by combining a multilevel approach with multivariable methods: sPLS (Integrative analysis) or sPLS-DA (Descriminant Analysis). Both approaches embbed variable selection.
+
+The function first decomposes the variance in the data sets X (and Y when sPLS is used) and applies either sPLS-DA or sPLS method on the within-subject deviation.
+
+One or two-factor analyses are available when 'sPLS-DA' is selected.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/methods/multilevel/
+
+----
+
+Usage (web-interface version)
+=============================
+
+input File (X)
+  a tabular file of predictors, missing values "NA" are allowed.
+
+input Cond
+  a one-column file for one-factor discrete outcome or a two-column file for two-factor discrete outcomes.
+
+input Sample
+  a single column file indicating the repeated measurements (sample groups) for each individual of Input File (X)
+
+Number of components (ncomp)
+  is the number of components to include in the model
+
+method {sPLS|sPLS-DA}
+  select which multivariate method to use for analysis, either sPLS or sPLS-DA. When 'sPLS' is selected, the user needs to provide additional information: (1) Input File Y and (2) number of variables to keep for dimension Y. One or two-factor analyses are availble when 'sPLS-DA' is selected.
+
+Number of variables to keep on each dimension for X/Y
+  the number of variables to keep for each component (ncomp) for dimension X and if 'sPLS' is selected, for dimension Y as well.
+
+----
+
+Outputs
+=======
+
+There are five output files from this tool:
+
+1. Loadings for X (csv format) - list of estimated loadings for the X variate
+2. Loadings for Y (csv foramt) - list of estimated loadings for the Y variate
+3. Latent variates for X (csv format) - list of variates for X
+4. Latent variates for Y (csv foramt) - list of variates for Y
+5. R data object (use for plotting)
+  </help>
+</tool>

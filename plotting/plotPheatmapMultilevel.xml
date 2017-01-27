@@ -1,0 +1,60 @@
+<tool id="mixOMics_plotPheatmapMultilevel" name="Pheatmap Multilevel">
+  <description>clustered heatmaps for multilevel analysis</description>
+  <command interpreter="Rscript">plotPheatmapMultilevel.r
+    $resultRData
+    $output
+    $sample
+    $stimulation
+  </command>
+  <inputs>
+    <param name="resultRData" type="data" label="Input result (R data object)" format="data"
+           help="Result object from mixOmics multilevel function"/>
+    <param name="stimulation" type="data" label="Input File (class):" format="tabular"
+           help="single column file indicating the sample class (used for colour coding)" />
+    <param name="sample" type="data" label="Input File (sample):" format="tabular"
+           help="single column file indicating the sample groups (used for colour coding)"/>
+  </inputs>
+  <outputs>
+    <data name="output" format="png" />
+  </outputs>
+  <help>
+
+mixOmics R package
+
+===========
+Description
+===========
+
+This tool generates a clustered heatmap using the pheatmap R package for mixOmics multilevel analysis. Samples are colour coded according to groups and similarly sample conditions are also defined on another level.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics : http://perso.math.univ-toulouse.fr/mixomics/graphics/variable-plots/pheatmap/
+
+-----
+
+Usage (web-interface version)
+=============================
+
+Input result (R data object)
+  the result (R data object) returned by the mixOmics multilevel function
+
+Input file (class)
+  a single column file indicating the sample classes
+
+Input file (sample)
+  a single column file indicating which group each sample belongs
+
+-----
+
+Output
+======
+
+An image in PNG format. Example image:
+
+|pheatmap|
+
+.. |pheatmap| image:: images/mixomics/cs_liver_multilevel1factor_pheatmap.png
+  </help>
+</tool>
+

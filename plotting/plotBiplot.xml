@@ -1,17 +1,21 @@
 <tool id="mixomics_plotBiplot" name="BiPlot">
-   <description>representing both the observations and variables of multivariate data</description>
-   <command interpreter="Rscript">plotBiplot.r
-      $resultRData
-      $output
-   </command>
-   <inputs>
-      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
-   </inputs>
-   <outputs>
-      <data name="output" format="png" />
-   </outputs>
+  <description>represent observations and variables</description>
+  <command interpreter="Rscript">plotBiplot.r
+    $resultRData
+    $output
+  </command>
+  <inputs>
+    <param name="resultRData" type="data" label="Input result (R data object)" 
+      format="data" help="Result object from mixOmics functions"/>
+  </inputs>
+  <outputs>
+    <data name="output" format="png" />
+  </outputs>
 
-   <help>
+  <help>
+
+mixOmics R package
+
 ===========
 Description
 ===========
@@ -30,10 +34,19 @@ A biplot displays information on both samples and variables. You can interpret a
 * You can approximate the coordinates of an observation by projecting 
   the point onto the variable vectors with the biplot.
 
------------
-Usage
------------
-Input result (Rdata)
-   The Rdata object output from one of the mixOmics functions e.g. PCA, PLS, RCC ...
-   </help>
+----
+
+Usage (web=interface version)
+=============================
+Input result (R data object)
+  the result (R data object) returned by mixOmics statistical functions e.g. PCA, PLS, RCC ...
+
+----
+
+Outputs
+=======
+
+An image in PNG format.
+
+  </help>
 </tool>

@@ -1,44 +1,90 @@
 <tool id="mixomics_plsda" name="PLS-DA">
-   <description>mixOmics package - Partial Lease Square Discriminant Analysis</description>
-   <command interpreter="Rscript">mixOmics_plsda.r
-      $inputX
-      $inputY
-      $loadingVectorsX
-      $latentVariablesX
-      $latentVariablesY
-      $variableNamesX
-      $variableNamesY
-      $variableNamesIndiv
-      $result
-      $ncomp
-      $sPLSDA_option.sparse
-      #if $sPLSDA_option.sparse
-         $sPLSDA_option.keepX.replace(",", " ")
-      #end if
-   </command>
-   <inputs>
-      <param name="inputX" type="data" label="Input File (X)" format="csv"/>
-      <param name="inputY" type="data" label="Input File (Y)" format="csv"/>
-      <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="3"/>
-      <conditional name="sPLSDA_option">
-         <param name="sparse" type="boolean" label="Sparse PLS-DA"/>
-         <when value="true">
-            <param name="keepX" type="text" label="How many variables to keep on each dimension for X"
-                   help="(e.g. 10 10 10) Separate values with a space"/>
-         </when>
-         <when value="false">
-         </when>
-      </conditional>
-   </inputs>
-   <outputs>
-      <data name="loadingVectorsX" format="csv"/>
-      <data name="latentVariablesX" format="csv"/>
-      <data name="latentVariablesY" format="csv"/>
-      <data name="variableNamesX" format="csv"/>
-      <data name="variableNamesY" format="csv"/>
-      <data name="variableNamesIndiv" format="csv"/>
-      <data name="result" format="data"/>
-   </outputs>
-   <help>
-   </help>
+  <description></description>
+  <command interpreter="Rscript">mixOmics_plsda.r
+    $inputX
+    $inputY
+    $loadingVectorsX
+    $latentVariablesX
+    $latentVariablesY
+    $variableNamesX
+    $variableNamesY
+    $variableNamesIndiv
+    $result
+    $ncomp
+    $sPLSDA_option.sparse
+    #if $sPLSDA_option.sparse
+      $sPLSDA_option.keepX.replace(",", " ")
+    #end if
+  </command>
+  <inputs>
+    <param name="inputX" type="data" label="Input File (X)" format="tabular"/>
+    <param name="inputY" type="data" label="Input File (Y)" format="tabular"/>
+    <param name="ncomp" type="integer" label="Number of components" min="0" max="10" value="2"/>
+    <conditional name="sPLSDA_option">
+      <param name="sparse" type="boolean" label="Sparse PLS-DA"/>
+      <when value="true">
+        <param name="keepX" type="text" label="How many variables to keep on each dimension for X"
+             help="(e.g. 10 10 10) Separate values with a space"/>
+      </when>
+      <when value="false">
+      </when>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data name="loadingVectorsX" format="csv" label="${tool.name} on ${on_string} (loading vectors X)"/>
+    <data name="latentVariablesX" format="csv" label="${tool.name} on ${on_string} (X latent variables)"/>
+    <data name="latentVariablesY" format="csv" label="${tool.name} on ${on_string} (Y latent variables)"/>
+    <data name="variableNamesX" format="csv" label="${tool.name} on ${on_string} (X variable names)"/>
+    <data name="variableNamesY" format="csv" label="${tool.name} on ${on_string} (Y variable names)"/>
+    <data name="variableNamesIndiv" format="csv" label="${tool.name} on ${on_string} (individual variable names)"/>
+    <data name="result" format="data" label="${tool.name} on ${on_string} (R data object)"/>
+  </outputs>
+  <help>
+
+mixOmics R package
+
+===========
+Description
+===========
+
+This tool performs Partial Least Squares-Discriminant Analysis (PLS-DA) using the mixOmics R package. PLS-DA is a classical PLS regression (with a regression mode) but where the response variable is categorical. i.e. indicates the classes/categories of the samples. PLS-DA has often been used for classification and discrimination problems (i.e. supervised classification), even though PLS was not originally designed for this purpose. The response vector Y is qualitative and is recoded as a dummy block matrix where each of the response categories are coded via an indicator variable. PLS-DA is then run as if Y was a continuous matrix. Note that this might be wrong from a theoretical point of view, however, it has been previously shown that this works well in practice.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/methods/spls-da/
+
+----
+
+Usage
+=====
+
+Input File (X)
+  a tabular file which provides the data for the principal components analysis. It can contain missing values.
+
+Input File (Y)
+  a tabular file which provides the responses (for multi-response models). Missing values (NAs) are allowed.
+
+Number of components
+  to include in the model, defaults to 2.
+  
+Sparse PLS-DA
+  perform the Sparse PLS-DA algorithm with feature selection.
+
+  when selected, you will need to specify **how many variables to keep on each dimension**, this is a comma or space separated list of numbered values. The number of elements to put is the same as waht is specified in the **number of components** field.  For example, if *number of components* = 3 then this field can have (10 10 15).
+
+----
+
+Outputs
+=======
+
+There are seven output files from this tool:
+
+1. Loading Vectors for X (csv format) - list of estimated loadings for the X variates
+2. Latent variates for X (csv format) - list of X variates
+3. Latent variates for Y (csv format) - list of Y variates
+4. Variable names for X (csv format) - list of names to be used for individuals and variable X
+5. Variable names for Y (csv format) - list of names to be used for individuals and variable Y
+6. Variable names (csv format) - list of names to be used for individuals and variables
+7. R data object (used for plotting)
+  </help>
 </tool>

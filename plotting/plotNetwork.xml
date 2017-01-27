@@ -1,5 +1,5 @@
 <tool id="mixOmics_plotNetwork" name="Network Plot">
-   <description>display relevance associations for network for RCC and PLS analysis.</description>
+   <description>relevance associations</description>
    <command interpreter="Rscript">plotNetwork.r
       $resultRData
       $output
@@ -8,16 +8,45 @@
    <inputs>
       <param name="resultRData" type="data" label="Input result (Rdata)" 
             format="data" help="Result object from mixOmics functions"/>
-      <param name="threshold" label="Threshold" type="float" min="0" max="1" value="0.8"/>
+      <param name="threshold" label="Threshold" type="float" min="0" max="1" value="0.8" 
+            help="between 0 and 1"/>
    </inputs>
    <outputs>
       <data name="output" format="png"/>
    </outputs>
    <help>
-============
-Description
-============
 
-A scatter diagram for a paired of coordinates.
+mixOmics R package
+
+===========
+Description
+===========
+
+This tool generates a network plot for (r)CCA and (s)PLS analyses using the mixOmics Package. Display relevance association networks for (regularised) canonical correlation analysis and (sparse) PLS regression.
+
+-----
+
+Usage (web-interface version)
+=============================
+
+Input result (Rdata)
+  the result (R data object) returned by mixOmics CCA and PLS functions.
+
+Threshold
+  is the tuning threshold for hte relevant associations networks, a numeric value between 0 and 1.
+
+-----
+
+Output
+======
+
+An image in PNG format.
+
+Example image:
+
+|network|
+
+.. |network| image:: images/mixomics/network_spls_int.png
+
    </help>
 </tool>

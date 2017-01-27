@@ -1,42 +1,69 @@
 <tool id="mixomics_plotVariables" name="Plot Variables">
-   <description>provides variable representation for RCC, PLS and PCA analysis</description>
-   <command interpreter="Rscript">plotVariables.r
-      $resultRData
-      $output
-      $dimensionX
-      $dimensionY
-      $xlabelVar
-   </command>
-   <inputs>
-      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
-      <param name="dimensionX" type="integer" label="X-axis dimension" min="1" max="10" value="1" />
-      <param name="dimensionY" type="integer" label="Y-axis dimension" min="1" max="10" value="2" />
-      <param name="xlabelVar" type="boolean" label="Show Variable names in plot" />
-   </inputs>
-   <outputs>
-      <data name="output" format="png" />
-   </outputs>
+  <description></description>
+  <command interpreter="Rscript">plotVariables.r
+    $resultRData
+    $output
+    $dimensionX
+    $dimensionY
+    $xlabelVar
+  </command>
+  <inputs>
+    <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
+    <param name="dimensionX" type="integer" label="X-axis dimension" min="1" max="10" value="1" />
+    <param name="dimensionY" type="integer" label="Y-axis dimension" min="1" max="10" value="2" />
+    <param name="xlabelVar" type="boolean" label="Show variable names in plot" />
+  </inputs>
+  <outputs>
+    <data name="output" format="png" />
+  </outputs>
 
-   <help>
+  <help>
+
+mixOmics R package
+
 ===========
 Description
 ===========
 
+Plot Variables produces a "correlation circle" plot. That is, the correlations between each variable and the selected components are plotted as scatter plot, with concentric circles of radius one et radius given by rad.in. Each point corresponds to a variable. For (regularized) CCA the components correspond to the equiangular vector between X- and Y-variates. For (sparse) PLS regression mode the components correspond to the X-variates. If mode is canonical, the components for X and Y variables correspond to the X- and Y-variates respectively.
 
------------
+For analyses performed using either the PLS-DA or sparse PLS-DA method, only the X variables are represented.
+
+For analyses performed using either the PLS or sparse PLS method, only the X and Y variables selected on the selected X- and Y-dimensions are represented. That is, a 3 component analysis can generate 3 variable representations for each combination of dimensions (1-2, 1-3 and 2-3).
+
+Variables from the X dataset are represented as red dots and variables from the Y dataset (if applicable) are denoted by the blue triangles.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics : http://perso.math.univ-toulouse.fr/mixomics/graphics/sample-plot/plotvar/
+
+-----
+
 Usage
------------
+=====
+
 Input result (Rdata)
-   a result object from a MixOmics function e.g. PCA, PLS, IPCA, CCA, Multilevel.
+  a result object from a MixOmics function e.g. PCA, PLS, IPCA, CCA, Multilevel.
 
 X-axis dimension
-   index of the component to show on the x-axis, e.g. if a PCA function was ran with ncomp=3, you can choose 1, 2, or 3 to plot on the x-axis.
+  index of the component to show on the x-axis, e.g. if a PCA function was ran with ncomp=3, you can choose 1, 2, or 3 to plot on the x-axis.
 
 Y-axis dimension
-   index of the component to show on the y-axis, e.g. if a PCA function was ran with ncomp=3, you can choose 1, 2, or 3 to plot on the y-axis.
+  index of the component to show on the y-axis, e.g. if a PCA function was ran with ncomp=3, you can choose 1, 2, or 3 to plot on the y-axis.
 
 Show Variable names
-   select this to plot using the variables names instead of circles.
+  select this to plot using the variables names instead of circles.
 
-   </help>
+-----
+
+Output
+======
+
+An image in PNG format. Example image:
+
+|plotvar|
+
+.. |plotvar| image:: images/mixomics/plotVarSPLS_1.png
+
+  </help>
 </tool>

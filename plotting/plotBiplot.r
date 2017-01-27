@@ -2,10 +2,16 @@
 
 ###############################################################################
 #
-# BiPlot representation 
+# BiPlot 
 #
-# Note: This script has been modified from 'mixOmics.r' that was created for
-#       the initial web-interface.
+# This script is written specifically for the mixOmics web-interface
+# using the Galaxy system.
+#
+# R-Package: stats
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
 #
 # Arguments:
 #   result      object of class inheriting from mixOmics functions
@@ -19,11 +25,13 @@ suppressPackageStartupMessages(library(mixOmics));
 IMG.WIDTH <- 800;
 IMG.HEIGHT <- 800;
 
-
 ARG_RESULT <- 1;
 ARG_OUTPUTFILE <- 2;
 
 args <- commandArgs(TRUE);
+cat("Arguments passed in\n");
+args;
+
 resultFile <- args[ARG_RESULT];
 outputFile <- args[ARG_OUTPUTFILE];
 
@@ -49,4 +57,4 @@ tryCatch({
 }, error = function(err) {
    stop(paste("ERROR while generating the biplot:\n\n", err));
 });
-dev.off();
+invisible(dev.off());

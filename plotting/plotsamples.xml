@@ -1,60 +1,76 @@
-<tool id="mixomics_plotSamples" name="Plot Samples">
-   <description>scatter plot for individual samples</description>
-   <command interpreter="Rscript">plotSamples.r
-      $resultRData
-      $output
-      $dimensionX
-      $dimensionY
-      $labelsamples
-      #if $classes_option.classes
-         $classes_option.classesFile
-      #end if
-      <!-- TODO: allow no files? -->
-      <!-- $sampleName -->
-   </command>
-   <inputs>
-      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" 
-             help="Result object from mixOmics functions"/>
-      <conditional name="classes_option">
-         <param name="classes" type="boolean" label="Colour by class"/>
-         <when value="true">
-            <param name="classesFile" type="data" label="Input classes file" format="csv" 
-                   help="File with one class label for each row in the original dataset"/>
-         </when>
-         <when value="false"></when>
-      </conditional>
-      <param name="dimensionX" type="integer" label="X-axis dimension" min="1" max="10" value="1" />
-      <param name="dimensionY" type="integer" label="Y-axis dimension" min="1" max="10" value="2" />
-      <param name="labelsamples" type="boolean" label="Show samples names in plot" />
-   </inputs>
-   <outputs>
-      <data name="output" format="png" />
-   </outputs>
+<tool id="mixomics_plotSamples" name="Plot Individual Samples">
+  <description></description>
+  <command interpreter="Rscript">plotSamples.r
+    $resultRData
+    $output
+    $dimensionX
+    $dimensionY
+    $labelsamples
+    #if $classes_option.classes
+      $classes_option.classesFile
+    #end if
+    <!-- TODO: allow no files? -->
+    <!-- $sampleName -->
+  </command>
+  <inputs>
+    <param name="resultRData" type="data" label="Input result (R data object)" format="data" 
+         help="Result object from mixOmics functions"/>
+    <conditional name="classes_option">
+      <param name="classes" type="boolean" label="Colour by class"/>
+      <when value="true">
+        <param name="classesFile" type="data" label="Input classes file" format="tabular" 
+             help="File with one class label for each row in the original dataset"/>
+      </when>
+      <when value="false"></when>
+    </conditional>
+    <param name="dimensionX" type="integer" label="X-axis dimension" min="1" max="10" value="1" />
+    <param name="dimensionY" type="integer" label="Y-axis dimension" min="1" max="10" value="2" />
+    <param name="labelsamples" type="boolean" label="Show sample names in plot" />
+  </inputs>
+  <outputs>
+    <data name="output" format="png" />
+  </outputs>
 
-   <help>
+  <help>
+
+mixOmics R packge
+
 ===========
 Description
 ===========
 
-This tool uses the mixOmics R package to perform Principal Component Analysis.
+This tool generates a plot where the samples are represented as point placed according to their relation to two dimensions among those chosen in the analysis (the ncomp parameter). Such points tends to aggregate together when they are share similarities.
 
------------
-Usage
------------
+Visit the mixOmics_ website for more information about this function.
 
-input File (X)
-   a tabular file which provides the data for the principal components analysis. It can contain missing values.
+.. _mixOmics : http://perso.math.univ-toulouse.fr/mixomics/graphics/sample-plot/plotindiv/
 
-Number of components
-   if the data is complete, this parameter decides the number of components and associated eigenvalues to display from the ``pcasvd`` algorithm. If the data has missing values, this parameter gives the number of components to keep to perform the reconstitution of hte data using the NIPALS algorithm.
+-----
 
-Sparse PCA
-   perform the Sparse PCA algorithm with feature selection.
+Usage (web-interface version)
+=============================
 
-center
-   if selected, the variables will be shifted to be zero-centered.
+Input result (R data object)
+  the result (R data object) returned by the mixOmics statistical functions (PCA, PLS, CCA)
 
-scale
-   if selected, this inidcates that hte variables should be scaled to have unit variance before the analysis is performed. The default is FALSE for consistency with ``prcmp`` function, but in general scaling is advisable.
-   </help>
+Colour by class
+  select if you want to colour the results by class. If yes, then select the file that provides the class for each sample
+
+X-axis dimension
+  the index to show on the x-axis (value &lt;= the number of components used in the statistical analysis)
+
+Y-axis dimension
+  the index to show on the y-axis (value &lt;= the number of components used in the staitstical analysis)
+
+-----
+
+Output
+======
+
+An image in PNG format. Example image:
+
+|plotindiv|
+
+.. |plotindiv| image:: images/mixomics/plotIndivSPLS.png
+  </help>
 </tool>

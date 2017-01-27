@@ -1,25 +1,60 @@
 <tool id="mixOmics_plotCIM" name="CIM">
-   <description>Clustered Image Maps</description>
-   <command interpreter="Rscript">plotCIM.r
-      $resultRData
-      $output
-      $dimX
-      $dimY
-   </command>
-   <inputs>
-      <param name="resultRData" type="data" label="Input result (Rdata)" format="data" help="Result object from mixOmics functions"/>
-      <param name="dimX" label="X-axis dimension" type="integer" min="1" max="10" value="1"
-            help="value should be &lt;= the number of components used in the statistical function analysis"/>
-      <param name="dimY" label="Y-axis dimension" type="integer" min="1" max="10" value="2"
-            help="value should be &lt;= the number of components used in the statistical function analysis"/> 
-   </inputs>
-   <outputs>
-      <data name="output" format="png"/>
-   </outputs>
-   <help>
+  <description>Clustered Image Maps</description>
+  <command interpreter="Rscript">plotCIM.r
+    $resultRData
+    $output
+    $dimX
+    $dimY
+  </command>
+  <inputs>
+    <param name="resultRData" type="data" label="Input result (R data object)" format="data" 
+           help="Result object from mixOmics functions"/>
+    <param name="dimX" label="X-axis dimension" type="integer" min="1" max="10" value="1"
+           help="value should be &lt;= the number of components used in the statistical function analysis"/>
+    <param name="dimY" label="Y-axis dimension" type="integer" min="1" max="10" value="2"
+           help="value should be &lt;= the number of components used in the statistical function analysis"/> 
+  </inputs>
+  <outputs>
+    <data name="output" format="png"/>
+  </outputs>
+  <help>
+
+mixOmics R package
+
 ===========
 Description
 ===========
-This function generates color-coded Clustered Image Maps (CIMs) ('heat maps') to represent 'high-dimensional' data sets.
-   </help>
+
+This function generates a colour-coded Clustered Image Map (CIM) or heatmap that represents high-dimensional data. CIM is based on a hierarchical clustering simultaneously applied on the rows and the columns of a real-valued similarity matrix. This similarity matrix is obtained via the results of (r)CCA or (s)PLS. The matrix is graphically represented as a 2-dimensional colored image, where each entry of the matrix is colored on the basis of its value, and where the rows and columns are reordered according to a hierarchical clustering. Dendrograms resulting from the clustering are added to the left (or right) side and to the top (or bottom) of the image.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/graphics/variable-plots/cim/
+
+-----
+
+Usage (web-interface version)
+=============================
+
+Input result (R data object)
+  the result (R data object) returned by mixOmics CCA or PLS functions. 
+
+X-axis dimension
+  the index to show on the x-axis (value &lt;= the number of components used in the statistical analysis)
+
+Y-axis dimension
+  the index to show on the y-axis (value &lt;= the number of components used in the statistical analysis)
+
+----
+
+Outputs
+=======
+
+An image in PNG format. Example image:
+
+|cim|
+
+.. |cim| image:: images/mixomics/cim_zoom_reg.png
+
+  </help>
 </tool>

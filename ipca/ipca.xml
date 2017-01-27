@@ -1,5 +1,5 @@
 <tool id="mixomics_ipca" name="IPCA" version="1.1">
-   <description>mixOmics package - Independent Principal Component Analysis</description>
+   <description></description>
    <command interpreter="Rscript">mixOmics_ipca.r
       $input
       $resultRData
@@ -31,29 +31,58 @@
       </conditional>
    </inputs>
    <outputs>
-      <data name="loadingVectors" format="csv"/>
-      <data name="principalComponents" format="csv"/>
-      <data name="kurtosis" format="csv"/>
-      <data name="resultRData" format="data"/>
+     <data name="loadingVectors" format="csv" label="${tool.name} on ${on_string} (loading vectors)"/>
+     <data name="principalComponents" format="csv" label="${tool.name} on ${on_string} (principal components)"/>
+     <data name="kurtosis" format="csv" label="${tool.name} on ${on_string} (kurtosis)"/>
+     <data name="resultRData" format="data" label="${tool.name} on ${on_string} (R data object)"/>
    </outputs>
 
-   <help>
+<help>
+
+mixOmics R package
+
 ===========
 Description
 ===========
 
-This tool uses the mixOmics R package to perform Independent Principal Component Analysis (IPCA) on the given data matrix, a combination of Principal Component Analysis and Independent Component Analysis.
+This tool performs Independent Principal Component Analysis (IPCA) on the given data using the mixOmics R package. It is a combination of Principal Component Analysis and Independent Component Analysis. It uses ICA as a denoising process of the loading vectors produced by PCA to better highlight the important biological entities and reveal insightful patterns in the data. 
 
-----------
-Usage
-----------
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/methods/sipca/
+
+-----
+
+Usage (web-interface version)
+=============================
 
 input File (X)
-   a tabular file which provides the data for the IPCA analysis, it can contain missing values.
+  a tabular file which provides the data for the IPCA analysis, it can contain missing values.
 
 Number of components
-   if the data is complete, this parameter decides the number of components ...
-   </help>
+  if the data is complete, this parameter decides the number of components ...
 
+Mode of computation
+  type of algorithm to use when estimating the unmixing matrix, choose from "deflation" or "parallel".
+  Default is set to "deflation".
+  
+Sparse IPCA
+  select to use sparse-IPCA method. Sparse IPCA enables variable selection
+
+  when selected, you will need to specify **how many variables to keep on each dimension**, this is a comma or space separated list of numbered values. The number of elements to put is the same as what is specified in the **number of components** field. For example, if *number of components* = 3 then this field will have (5 10 13).
+
+----
+
+Outputs
+=======
+
+There are four output files from this tool:
+
+1. Loading Vectors (csv format)      - list of independent loading values
+2. Principal Components (csv format) - list of independent principal components
+3. Kurtosis                          - the kurtosis measure of the independent loading vectors
+4. R data object of the result (used for plotting)
+
+</help>
 </tool>
 

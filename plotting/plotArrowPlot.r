@@ -2,10 +2,15 @@
 
 ###############################################################################
 #
-# Arrow Plots using mixOmics s.match()
+# mixOmics Arrow Plots (s.match)
 #
-# Note: This script has been modified from 'mixOmics.r' that was created for
-#       the initial web-interface.
+# This script is written specifically for the mixOmics web-interface
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.s.match): Daniel Chessel from ade4 R package, modified by Kim-Anh Lê Cao.
 #
 # Arguments:
 #   result      object of class inheriting from mixOmics functions

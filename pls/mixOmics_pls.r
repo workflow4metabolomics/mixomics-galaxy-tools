@@ -2,10 +2,15 @@
 
 ################################################################################
 #
-# MixOmics PLS function
+# mixOmics PLS function
 #
 # This script is written specifically for the mixOmics web-interface
-# using the Galaxy workflow system.
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.pls): Sébastien Déjean, Ignacio González and Kim-Anh Lê Cao.
 #
 # Expected parameters from the commandline
 # input files:
@@ -118,7 +123,7 @@ if (sparsePLS) {
    });
 }
 
-# writing of numeric results in a csv file
+## Writing output files
 cat("\n\nWriting output files\n");
 write.table(result$loadings$X, file=loadingVectorsX, sep="\t");
 write.table(result$loadings$Y, file=loadingVectorsY, sep="\t");

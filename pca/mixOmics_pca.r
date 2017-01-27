@@ -2,10 +2,15 @@
 
 ################################################################################
 #
-# MixOmics PCA function
+# mixOmics PCA function
 #
 # This script is written especially for the mixOmics web-interface powered
-# using the Galaxy workflow system.
+# using the Galaxy system.
+#
+# Version: 1.0
+# 
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.pca): Ignacio González
 #
 # Parameters
 #     fileX                path to datafile

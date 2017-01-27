@@ -2,10 +2,15 @@
 
 ################################################################################
 #
-# MixOmics PLS-DA function
+# mixOmics PLS-DA function
 #
 # This script is written specifically for the mixOmics web-interface
-# using the Galaxy workflow system.
+# using the Galaxy system.
+#
+# Version: 1.0
+#
+# Author (wrapper): Xin-Yi Chua
+# Author (mixOmics.plsda): Ignacio González, Kim-Anh Lê Cao and Pierre Monget.
 #
 # Expected parameters from the commandline
 # input files:

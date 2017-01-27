@@ -26,21 +26,34 @@ suppressPackageStartupMessages(library(mixOmics));
 
 ##set to use the Xvfbd display
 display <- Sys.getenv("DISPLAY");
-#cat("DISPLAY=", display, "\n");
-#cat("capabilities():\n");
-#capabilities();
+cat("DISPLAY=", display, "\n");
+cat("capabilities():\n");
+capabilities();
 
 IMG.WIDTH <- 6;#900;
 IMG.HEIGHT <- 5;#800;
 
+args <- commandArgs(TRUE);
+
 ARG_RESULT <- 1;
 ARG_OUTPUTFILE <- 2;
-ARG_COMP1 <- 3;
-ARG_COMP2 <- 4;
-ARG_CLASSESFILE <- 6;
-ARG_XLABELINDIV <- 5;
+ARG_XLABELINDIV <- 3;
+ARG_COMP1 <- 4;
+ARG_COMP2 <- 5;
+ARG_CLASSESFILE <- match("-class" %in% args);
+if (!is.na(ARG_CLASSESFILE)) {
+  ARG_CLASSESFILE <- ARG_CLASSEFILE + 1;
+  classesFile <- args[ARG_CLASSESFILE];
+} else {
+  classesFile <- "";
+}
+## plot other dimensions
+ARG_MULTIDIM <- match("-mutli" %in% args);
+if (!is.na(ARG_MULTIDIM)) {
+  ARG_MULTIDIM <- ARG_MUTLIDIM + 1;
+  dims <- args[ARG_MULTIDIM:length(args)];
+}
 
-args <- commandArgs(TRUE);
 
 cat("Arguments parsed in\n");
 args;
@@ -48,7 +61,6 @@ args;
 resultFile <- args[ARG_RESULT];
 outputFile <- args[ARG_OUTPUTFILE];
 comp <- c(as.numeric(args[ARG_COMP1]), as.numeric(args[ARG_COMP2]));
-classesFile <- args[ARG_CLASSESFILE];
 xlabelIndiv <- as.logical(args[ARG_XLABELINDIV]);
 
 ## loading result object
@@ -69,7 +81,7 @@ if (file.exists(resultFile)) {
 if (file.exists(classesFile)) {
 print("Loading Class File");
    tryCatch({
-      classes <- as.matrix(read.table(classesFile,header=TRUE));
+      classes <- as.matrix(read.table(classesFile),header=TRUE);
    }, warning = function(w) {
       print(paste("Warning: ", w));
    }, error = function(err) {
@@ -83,13 +95,12 @@ print("Loading Class File");
 }
 
 ## plotting samples
-cat("comp:", comp, "\n");
 bitmap(file=outputFile, type="png16m", res=150, width=IMG.WIDTH, height=IMG.HEIGHT, units="in");
 if (length(classesName) > 1) { 
 	layout(matrix(c(1,2), nrow=1, ncol=2), widths=c(0.7,0.3));
    ## Tweak margins make right side smallest possible and disable clipping legend
    par(mar=c(5,4,4,0) + 0.1, xpd=T);
-   #cat("ind.names=", xlabelIndiv, "\n");
+   cat("ind.names=", xlabelIndiv, "\n");
    plotIndiv <- try(plotIndiv(result, comp=comp, ind.names=xlabelIndiv, col=col, pch=16));
    ## Create legend in 0,1 position
    plot(1:3, rnorm(3), pch = 1, lty = 1, ylim=c(-2,2), type="n", axes = FALSE, ann = FALSE);
