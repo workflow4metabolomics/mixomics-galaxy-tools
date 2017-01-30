@@ -1,0 +1,114 @@
+<tool id="mixomics_multilevel" name="Multilevel" version="0.2">
+
+   <description>Data transformation multilevel (cross-over design) with mixOmics package</description>
+    
+    <requirements>
+        <requirement type="package" version="6.1.1">r-mixomics</requirement>
+        <requirement type="package" version="1.1_4">r-batch</requirement>
+    </requirements>
+    
+    <stdio>
+        <exit_code range="1:" level="fatal" />
+    </stdio>
+	
+  
+  <command>![CDATA[
+  Rscript $__tool_directory__/mixOmics_multilevel.r
+  
+  dataMatrix_in "$dataMatrix_in"
+  sampleMetadata_in "$sampleMetadata_in"
+  
+  
+  #if $nblevel.option_level == "onelevel"
+   respL "$nblevel.respL"
+  
+  #end if
+  #if $nblevel.option_level == "twolevel"
+   respL1 "$nblevel.respL1"
+   respL2 "$nblevel.respL2"
+  #end if
+  ]]></command>
+  <inputs>
+    <param name="dataMatrix_in" label="Data matrix file" type="data" format="tabular" help="variable x sample, decimal: '.', missing: NA, mode: numerical, sep: tabular" />
+    <param name="sampleMetadata_in" label="Sample metadata file" type="data" format="tabular" help="sample x metadata, decimal: '.', missing: NA, mode: character and numerical, sep: tabular" />
+    
+    <conditional name="nblevel">
+      <param name="option_level" type="select" label="Select number of levels">
+        <option value="onelevel" select="True">One Level</option>
+        <option value="twolevel">Two levels</option>
+      </param>
+      <when value="onelevel">
+         <param name="respL" label="Level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column of the sample table to be used as factor" />
+      </when>
+      <when value="twolevel">
+		  <param name="respL1" label="First level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column of the sample table to be used as first factor" />
+          <param name="respL2" label="Second level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column of the sample table to be used as second factor" />
+	  </when>
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <data name="dataMatrix_out" label="${tool.name}_${dataMatrix_in.name}" format="tabular" ></data>
+    <data name="multilevelRData" format="rdata" from_work_dir="multilevel.RData" label="multilevel.RData" />
+    <data name="log" format="txt" from_work_dir="multilevel.log" label="multilevel.log.txt" />
+  </outputs>
+ 
+  
+
+  <help>
+
+mixOmics R package
+
+===========
+Description
+===========
+
+This tool uses the mixOmics R package to perform Multilevel analysis for repeated measurements (cross-over design).
+
+The analysis of repeated measurements is performed by combining a multilevel approach with multivariable methods: sPLS (Integrative analysis) or sPLS-DA (Descriminant Analysis). Both approaches embbed variable selection.
+
+The function first decomposes the variance in the data sets X (and Y when sPLS is used) and applies either sPLS-DA or sPLS method on the within-subject deviation.
+
+One or two-factor analyses are available when 'sPLS-DA' is selected.
+
+Visit the mixOmics_ website for more information about this function.
+
+.. _mixOmics: http://perso.math.univ-toulouse.fr/mixomics/methods/multilevel/
+
+----
+
+Usage (web-interface version)
+=============================
+
+input File (X)
+  a tabular file of predictors, missing values "NA" are allowed.
+
+input Cond
+  a one-column file for one-factor discrete outcome or a two-column file for two-factor discrete outcomes.
+
+input Sample
+  a single column file indicating the repeated measurements (sample groups) for each individual of Input File (X)
+
+Number of components (ncomp)
+  is the number of components to include in the model
+
+method {sPLS|sPLS-DA}
+  select which multivariate method to use for analysis, either sPLS or sPLS-DA. When 'sPLS' is selected, the user needs to provide additional information: (1) Input File Y and (2) number of variables to keep for dimension Y. One or two-factor analyses are availble when 'sPLS-DA' is selected.
+
+Number of variables to keep on each dimension for X/Y
+  the number of variables to keep for each component (ncomp) for dimension X and if 'sPLS' is selected, for dimension Y as well.
+
+----
+
+Outputs
+=======
+
+There are five output files from this tool:
+
+1. Loadings for X (csv format) - list of estimated loadings for the X variate
+2. Loadings for Y (csv foramt) - list of estimated loadings for the Y variate
+3. Latent variates for X (csv format) - list of variates for X
+4. Latent variates for Y (csv foramt) - list of variates for Y
+5. R data object (use for plotting)
+  </help>
+</tool>
