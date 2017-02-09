@@ -1,0 +1,110 @@
+<tool id="mixomics_multilevel" name="Multilevel" version="0.4">
+
+   <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
+    
+    <requirements>
+        <requirement type="package" version="1.1_4">r-batch</requirement>
+		<requirement type="package" version="6.1.1">mixOmics</requirement>
+    </requirements>
+    
+    <stdio>
+        <exit_code range="1:" level="fatal" />
+    </stdio>
+	
+  
+  <command>
+	  Rscript $__tool_directory__/mixomics_multilevel_beta.r
+	  
+	  dataMatrix_in "$dataMatrix_in"
+	  sampleMetadata_in "$sampleMetadata_in"
+	  repmeasure "$repmeasure"
+	  
+	  #if $nblevel.option_level == "onelevel"
+	   respL "$nblevel.respL"
+	   respL2 "NULL"
+	  #end if
+	  #if $nblevel.option_level == "twolevel"
+	   respL1 "$nblevel.respL1"
+	   respL2 "$nblevel.respL2"
+	  #end if
+  </command>
+  <inputs>
+    <param name="dataMatrix_in" label="Data matrix file" type="data" format="tabular" help="variable x sample, decimal: '.', missing: NA, mode: numerical, sep: tabular" />
+    <param name="sampleMetadata_in" label="Sample metadata file" type="data" format="tabular" help="sample x metadata, decimal: '.', missing: NA, mode: character and numerical, sep: tabular" />
+    
+	<param name="repmeasure" label="Repeated mesurement label (Individual IDs, ...)" type="text" value="none" help="Indicate the column name of the sample table to be used as repeated mesurement factor" />
+    
+	
+    <conditional name="nblevel">
+      <param name="option_level" type="select" label="Select number of levels1">
+        <option value="onelevel" select="True">One Level</option>
+        <option value="twolevel">Two levels</option>
+      </param>
+      <when value="onelevel">
+         <param name="respL" label="Level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column name of the sample table to be used as factor" />
+      </when>
+      <when value="twolevel">
+		  <param name="respL1" label="First level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column name of the sample table to be used as first factor" />
+          <param name="respL2" label="Second level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column name of the sample table to be used as second factor" />
+	  </when>
+    </conditional>
+  </inputs>
+
+  <outputs>
+    <data name="dataMatrix_out" format="tabular" from_work_dir="dataMatrix_out.tsv" label="dataMatrix_out.tsv"  ></data>
+    <data name="multilevelRData" format="rdata" from_work_dir="multilevel.RData" label="multilevel.RData" />
+    <data name="log" format="txt" from_work_dir="multilevel.log" label="multilevel.log.txt" />
+  </outputs>
+ 
+  <tests>
+        <test>
+            <param name="dataMatrix_in" value="dataMatrix.csv"  ftype="tabular" />
+            <param name="sampleMetadata_in" value="sampleMetadata.csv" ftype="tabular" />
+			<param name="repmeasure" value="Subject" />
+            <param name="nblevel|option_level" value="onelevel" />
+            <param name="nblevel|option_level" value="Occasion" />
+            <output name="dataMatrix_out" file="dataMatrix_out.tsv" lines_diff="6" />
+        </test>
+  </tests>
+  
+
+  <help>
+
+.. class:: infomark
+
+**Author(s)**  Benoit Liquet, Kim-Anh Le Cao, Benoit Gautier, Ignacio Gonzalez.
+
+.. class:: infomark
+
+**Galaxy wrapper and scripts developpers for W4M integration** Guitton Yann LABERCA yann.guitton@oniris-nantes.fr
+
+===========
+Description
+===========
+
+withinVariation function decomposes the Within variation in the dataMatrix (One or two-factor analyses are available). The resulting  matrix is then input in any multivariate analyses.
+
+withinVariation simply returns the Xw within matrix, which can be input in the other multivariate approaches already implemented in mixOmics 
+
+
+That tool make use of withinVariation function for cross-over design experiment (Repeated mesurement) from mixOmics R package _packurl.
+
+.._packurl: https://CRAN.R-project.org/package=mixOmics
+
+For details information about mixOmics please connect to _link.
+
+.._link: http://mixomics.org/
+
+**Please cite:**
+Kim-Anh Le Cao, Florian Rohart, Ignacio Gonzalez, Sebastien Dejean with key contributors Benoit Gautier, Francois Bartolo, 
+contributions from Pierre Monget, Jeff Coquery, FangZou Yao and Benoit Liquet(2016). 
+mixOmics: Omics Data Integration Project. R package version 6.1.1. 
+ 
+  </help>
+  
+    <citations>
+		<citation type="doi">10.1186/1471-2105-13-325</citation>
+		<citation type="doi">10.1007/s11306-009-0185-z</citation>
+        <citation type="doi">10.1093/bioinformatics/btu813</citation>
+    </citations>
+</tool>
