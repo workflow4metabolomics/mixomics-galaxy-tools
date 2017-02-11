@@ -4,7 +4,7 @@
     
     <requirements>
         <requirement type="package" version="1.1_4">r-batch</requirement>
-		<requirement type="package" version="6.1.1">mixOmics</requirement>
+	<requirement type="package" version="6.1.1">mixOmics</requirement>
     </requirements>
     
     <stdio>
