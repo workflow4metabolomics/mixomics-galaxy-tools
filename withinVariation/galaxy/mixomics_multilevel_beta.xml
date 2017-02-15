@@ -1,10 +1,10 @@
-<tool id="mixomics_multilevel" name="Multilevel" version="0.4">
+<tool id="mixomics_multilevel" name="Multilevel" version="0.5">
 
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
     <requirements>
         <requirement type="package" version="1.1_4">r-batch</requirement>
-		<requirement type="package" version="6.1.1">mixOmics</requirement>
+		<requirement type="package" version="6.1.1">r-mixomics</requirement>
     </requirements>
     
     <stdio>

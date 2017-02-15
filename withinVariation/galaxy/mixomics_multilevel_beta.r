@@ -36,7 +36,7 @@ cat("\tPACKAGE INFO\n")
 
 pkgs=c("mixOmics","batch")
 for(pkg in pkgs) {
-  suppressPackageStartupMessages( stopifnot( library(pkg, quietly=TRUE, logical.return=TRUE, character.only=TRUE)))
+  # suppressPackageStartupMessages( stopifnot( library(pkg, quietly=TRUE, logical.return=TRUE, character.only=TRUE)))
   cat(pkg,"\t",as.character(packageVersion(pkg)),"\n",sep="")
 }
 
