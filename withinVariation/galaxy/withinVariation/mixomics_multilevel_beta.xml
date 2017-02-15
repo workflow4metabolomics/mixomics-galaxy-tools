@@ -3,7 +3,7 @@
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
     <requirements>
-        <requirement type="package" version="6.1.1">r-mixOmics</requirement>
+        <requirement type="package" version="6.1.1">r-mixomics</requirement>
 	<requirement type="package" version="1.1_4">r-batch</requirement>
     </requirements>
     
