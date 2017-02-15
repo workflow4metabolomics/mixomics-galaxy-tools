@@ -9,3 +9,8 @@ This fork is intented to be the base for integration of mixOmics tools in workfl
 * The wrappers are for mixOmics version 4.X and an older version of Galaxy.
 * Updates to wrappers for newer versions or R > 3.3.1 and mixOmics 6.1.1
 * Upload to Galaxy toolshed
+
+
+## mixOmics auto installation
+
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square)](http://bioconda.github.io/recipes/r-mixomics/README.html)
