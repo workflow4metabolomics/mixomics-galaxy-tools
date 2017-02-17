@@ -37,7 +37,7 @@
 	
     <conditional name="nblevel">
       <param name="option_level" type="select" label="Select number of levels1">
-        <option value="onelevel" select="True">One Level</option>
+        <option value="onelevel" selected="True">One Level</option>
         <option value="twolevel">Two levels</option>
       </param>
       <when value="onelevel">
