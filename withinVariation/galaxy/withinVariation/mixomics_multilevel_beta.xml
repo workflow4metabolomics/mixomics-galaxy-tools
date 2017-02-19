@@ -62,7 +62,7 @@
             <param name="sampleMetadata_in" value="sampleMetadata.csv" ftype="tabular" />
 			<param name="repmeasure" value="Subject" />
             <param name="nblevel|option_level" value="onelevel" />
-            <param name="nblevel|option_level" value="Occasion" />
+            <param name="respL" value="Occasion" />
             <output name="dataMatrix_out" file="dataMatrix_out.tsv" lines_diff="6" />
         </test>
   </tests>
