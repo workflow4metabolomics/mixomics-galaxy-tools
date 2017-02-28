@@ -1,4 +1,4 @@
-<tool id="mixomics_multilevel" name="Multilevel" version="0.4">
+<tool id="mixomics_multilevel" name="Multilevel" version="0.6">
 
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
@@ -13,7 +13,7 @@
 	
   
   <command>
-	  Rscript $__tool_directory__/mixomics_multilevel_beta.r
+	  Rscript $__tool_directory__/mixomics_multilevel.r
 	  
 	  dataMatrix_in "$dataMatrix_in"
 	  sampleMetadata_in "$sampleMetadata_in"
@@ -87,11 +87,11 @@ withinVariation function decomposes the Within variation in the dataMatrix (One 
 withinVariation simply returns the Xw within matrix, which can be input in the other multivariate approaches already implemented in mixOmics 
 
 
-That tool make use of withinVariation function for cross-over design experiment (Repeated mesurement) from mixOmics R package _packurl.
+That tool make use of withinVariation function for cross-over design experiment (Repeated mesurement) from mixOmics R package _packurl
 
 .._packurl: https://CRAN.R-project.org/package=mixOmics
 
-For details information about mixOmics please connect to _link.
+For details information about mixOmics please connect to _link
 
 .._link: http://mixomics.org/
 
