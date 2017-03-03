@@ -1,10 +1,11 @@
-<tool id="mixomics_multilevel" name="Multilevel" version="0.6">
+<tool id="mixomics_multilevel" name="Multilevel" version="0.7">
 
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
     <requirements>
         <requirement type="package" version="6.1.1">r-mixomics</requirement>
 	<requirement type="package" version="1.1_4">r-batch</requirement>
+	 <requirement type="package" version="1.66.0">r-pcamethods</requirement>
     </requirements>
     
     <stdio>
@@ -27,6 +28,15 @@
 	   respL1 "$nblevel.respL1"
 	   respL2 "$nblevel.respL2"
 	  #end if
+	  #if $transformation.option_transformation == "none"
+	   trans "NULL"
+	   scale "NULL"
+	  #end if
+	  #if $transformation.option_transformation == "none"
+	   trans "$transformation.trans"
+	   scale "$transformation.scale"
+	  #end if
+	  
   </command>
   <inputs>
     <param name="dataMatrix_in" label="Data matrix file" type="data" format="tabular" help="variable x sample, decimal: '.', missing: NA, mode: numerical, sep: tabular" />
@@ -48,6 +58,20 @@
           <param name="respL2" label="Second level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column name of the sample table to be used as second factor" />
 	  </when>
     </conditional>
+	
+     <conditional name="transformation">
+      <param name="option_transformation" type="select" label="Add transformation to dataMatrix">
+        <option value="none" selected="True">none</option>
+        <option value="transformation">Add transformation</option>
+      </param>
+      <when value="none">
+      </when>
+      <when value="transformation">
+          <param name="trans" label="Transformation" type="text" value = "none" help="Indicate the transformation needed (log2, log10, none)" />
+          <param name="scale" label="Scaling" type="text" value = "none" help="Indicate the scaling (Pareto, UV, none)" />
+      </when>
+    </conditional>
+	  
   </inputs>
 
   <outputs>
