@@ -9,7 +9,7 @@
 #
 # R-Package: mixOmics
 #
-# Version: 1.2
+# Version: 1.2.1
 #
 # Author (wrapper): Xin-Yi Chua (xinyi.chua@qfab.org)
 # Author (mixOmics.multilevel): Benoit Liquet, Kim-Anh Le Cao
@@ -21,6 +21,8 @@
 #             sampleMetadata
 # params:
 #             respL (respL for one level & respL1 & respL2 for 2 levels)
+#             trans (need log21 or log10 transformation before withinVar)
+#             scaling
 # output files:
 #             dataMatrix_out (after withinVariation correction )
 #             result (Robject) 
@@ -34,7 +36,7 @@ sink(log_file, type = "output")
 # ----- PACKAGE -----
 cat("\tPACKAGE INFO\n")
 
-pkgs=c("mixOmics","batch")
+pkgs=c("mixOmics","batch","pcaMethods")
 for(pkg in pkgs) {
   suppressPackageStartupMessages( stopifnot( library(pkg, quietly=TRUE, logical.return=TRUE, character.only=TRUE)))
   cat(pkg,"\t",as.character(packageVersion(pkg)),"\n",sep="")
@@ -58,7 +60,7 @@ print(listArguments)
 cat('\n\nRunning mixOmics_multilevel.r\n');
 
 options(warn=-1);
-suppressPackageStartupMessages(library(mixOmics));
+##suppressPackageStartupMessages(library(mixOmics)); #not needed?
 
 
 ## constants
@@ -70,50 +72,8 @@ topEnvC <- environment()
 flgC <- "\n"
 
 ## functions
-##----------
-# withinVariation<-function (X, design) 
-# {
-    # X = as.matrix(X)
-    # rep.measures = factor(design[, 1])
-    # factors = design[, -1, drop = FALSE]
-    # if (any(summary(as.factor(rep.measures)) == 1)) 
-        # stop("A multilevel analysis can not be performed when at least one some sample is not repeated.")
-    # if ((ncol(factors) == 0) | (ncol(factors) == 1)) {
-        # message("Splitting the variation for 1 level factor.")
-        # indiv.names = rownames(X)
-        # rownames(X) = as.character(rep.measures)
-        # X.mean.indiv = matrix(apply(X, 2, tapply, rep.measures, 
-            # mean, na.rm = TRUE), nrow = length(unique(rep.measures)), 
-            # ncol = dim(X)[2], dimnames = list(levels(as.factor(rep.measures)), 
-                # colnames(X)))
-        # Xb = X.mean.indiv[as.character(rep.measures), ]
-        # Xw = X - Xb
-        # dimnames(Xw) = list(indiv.names, colnames(X))
-    # }
-    # else {
-        # message("Splitting the variation for 2 level factors.")
-        # Xm = colMeans(X)
-        # Xs = apply(X, 2, tapply, rep.measures, mean, na.rm = TRUE)
-        # Xs = Xs[rep.measures, ]
-        # xbfact1 = apply(X, 2, tapply, paste0(rep.measures, factors[, 
-            # 1]), mean, na.rm = TRUE)
-        # xbfact1 = xbfact1[paste0(rep.measures, factors[, 1]), 
-            # ]
-        # xbfact2 = apply(X, 2, tapply, paste0(rep.measures, factors[, 
-            # 2]), mean, na.rm = TRUE)
-        # xbfact2 = xbfact2[paste0(rep.measures, factors[, 2]), 
-            # ]
-        # Xmfact1 = apply(X, 2, tapply, factors[, 1], mean, na.rm = TRUE)
-        # Xmfact1 = Xmfact1[factors[, 1], ]
-        # Xmfact2 = apply(X, 2, tapply, factors[, 2], mean, na.rm = TRUE)
-        # Xmfact2 = Xmfact2[factors[, 2], ]
-        # Xw = X + Xs - xbfact1 - xbfact2 + Xmfact1 + Xmfact2
-        # Xw = sweep(Xw, 2, 2 * Xm)
-        # dimnames(Xw) = dimnames(X)
-    # }
-    # return(invisible(Xw))
-# }
- ##end withinVariation to be removed after mixOmics package properly installed   
+##----------For manual input of function
+##--end function
 
 flgF <- function(tesC,
                  envC = topEnvC,
@@ -161,7 +121,11 @@ samDF <- read.table(listArguments[["sampleMetadata_in"]],
 sep = "\t")
 flgF("identical(rownames(xMN), rownames(samDF))", txtC = "Sample names (or number) in the data matrix (first row) and sample metadata (first column) are not identical; use the 'Check Format' module in the 'Quality Control' section")
 
+##Here Add transformation scripts if trans<>none
 
+#prep(xMN, scale="Pareto")
+
+##end tranformation
 
 if (listArguments[["respL2"]]!="NULL"){
   cat("\n\nMultilevel (two levels)\n");
