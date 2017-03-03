@@ -29,12 +29,13 @@
 	   respL2 "$nblevel.respL2"
 	  #end if
 	  #if $transformation.option_transformation == "none"
-	   trans "NULL"
-	   scale "NULL"
+	   transfo "NULL"
 	  #end if
 	  #if $transformation.option_transformation == "none"
+	   transfo "go"
 	   trans "$transformation.trans"
 	   scale "$transformation.scale"
+	   center "$transformation.center"
 	  #end if
 	  
   </command>
@@ -68,7 +69,11 @@
       </when>
       <when value="transformation">
           <param name="trans" label="Transformation" type="text" value = "none" help="Indicate the transformation needed (log2, log10, none)" />
-          <param name="scale" label="Scaling" type="text" value = "none" help="Indicate the scaling (Pareto, UV, none)" />
+          <param name="scale" label="Scaling" type="text" value = "none" help="Indicate the scaling (none pareto vector uv)" />
+          <param name="center" label="Centering" type="select" value = "TRUE" help="Indicate if centering is needed ">
+             <option value="TRUE" selected="True">TRUE</option>
+             <option value="FALSE">FALSE</option>
+          </param>
       </when>
     </conditional>
 	  
