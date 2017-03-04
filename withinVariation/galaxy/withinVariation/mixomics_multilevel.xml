@@ -31,7 +31,7 @@
 	  #if $transformation.option_transformation == "none"
 	   transfo "NULL"
 	  #end if
-	  #if $transformation.option_transformation == "none"
+	  #if $transformation.option_transformation == "transformation"
 	   transfo "go"
 	   trans "$transformation.trans"
 	   scale "$transformation.scale"
