@@ -1,5 +1,15 @@
 <tool id="mixomics_plsda" name="PLS-DA">
-  <description></description>
+  <description>PLS-DA and Sparse PLS-DA with mixOmics </description>
+  
+  <requirements>
+      <requirement type="package" version="6.1.1">r-mixomics</requirement>
+	    <requirement type="package" version="1.1_4">r-batch</requirement>
+  </requirements>
+    
+  <stdio>
+      <exit_code range="1:" level="fatal" />
+  </stdio>
+  
   <command interpreter="Rscript">mixOmics_plsda.r
     $inputX
     $inputY
