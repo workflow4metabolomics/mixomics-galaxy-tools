@@ -1,11 +1,11 @@
-<tool id="mixomics_multilevel" name="Multilevel" version="0.7">
+<tool id="mixomics_multilevel" name="Multilevel" version="0.7.3">
 
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
     <requirements>
         <requirement type="package" version="6.1.1">r-mixomics</requirement>
-	<requirement type="package" version="1.1_4">r-batch</requirement>
-	 <requirement type="package" version="1.64.0">bioconductor-pcamethods</requirement>
+	    <requirement type="package" version="1.1_4">r-batch</requirement>
+	    <requirement type="package" version="1.64.0">bioconductor-pcamethods</requirement>
     </requirements>
     
     <stdio>
@@ -28,10 +28,7 @@
 	   respL1 "$nblevel.respL1"
 	   respL2 "$nblevel.respL2"
 	  #end if
-	  #if $transformation.option_transformation == "none"
-	   transfo "NULL"
-	  #end if
-	  #if $transformation.option_transformation == "none"
+	  #if $transformation.option_transformation
 	   transfo "go"
 	   trans "$transformation.trans"
 	   scale "$transformation.scale"
@@ -42,8 +39,7 @@
   <inputs>
     <param name="dataMatrix_in" label="Data matrix file" type="data" format="tabular" help="variable x sample, decimal: '.', missing: NA, mode: numerical, sep: tabular" />
     <param name="sampleMetadata_in" label="Sample metadata file" type="data" format="tabular" help="sample x metadata, decimal: '.', missing: NA, mode: character and numerical, sep: tabular" />
-    
-	<param name="repmeasure" label="Repeated mesurement label (Individual IDs, ...)" type="text" value="none" help="Indicate the column name of the sample table to be used as repeated mesurement factor" />
+   	<param name="repmeasure" label="Repeated mesurement label (Individual IDs, ...)" type="text" value="none" help="Indicate the column name of the sample table to be used as repeated mesurement factor" />
     
 	
     <conditional name="nblevel">
@@ -59,23 +55,27 @@
           <param name="respL2" label="Second level name (as in sampleMetadata)" type="text" value = "none" help="Indicate the column name of the sample table to be used as second factor" />
 	  </when>
     </conditional>
-	
-     <conditional name="transformation">
-      <param name="option_transformation" type="select" label="Add transformation to dataMatrix">
-        <option value="none" selected="True">none</option>
-        <option value="transformation">Add transformation</option>
-      </param>
-      <when value="none">
-      </when>
-      <when value="transformation">
-          <param name="trans" label="Transformation" type="text" value = "none" help="Indicate the transformation needed (log2, log10, none)" />
-          <param name="scale" label="Scaling" type="text" value = "none" help="Indicate the scaling (none pareto vector uv)" />
-          <param name="center" label="Centering" type="select" value = "TRUE" help="Indicate if centering is needed ">
-             <option value="TRUE" selected="True">TRUE</option>
-             <option value="FALSE">FALSE</option>
-          </param>
+	<conditional name="transformation">
+      <param name="option_transformation" type="boolean" label="Add transformation to dataMatrix before withinVariation" />
+          <when value="false">
+          </when>
+      <when value="true">
+          <param name="trans" label="Transformation" type="select" help="" >
+		     <option value="none">none</option>
+		     <option value="log2">log2</option>
+             <option value="log10">log10</option>
+             <option value="sqrt">square root</option>
+		  </param>	 
+          <param name="scale" label="Scaling" type="select" help="" >
+		     <option value="none">none</option>
+		     <option value="pareto">pareto</option>
+             <option value="vector">vector</option>
+             <option value="uv">UV</option>
+		  </param>
+		  <param name="center" label="Centering" type="boolean" />
       </when>
     </conditional>
+  
 	  
   </inputs>
 
@@ -92,6 +92,19 @@
 			<param name="repmeasure" value="Subject" />
             <param name="nblevel|option_level" value="onelevel" />
             <param name="respL" value="Occasion" />
+            <output name="dataMatrix_out" file="dataMatrix_out.tsv" lines_diff="6" />
+        </test>
+		
+		 <test>
+            <param name="dataMatrix_in" value="dataMatrix.csv"  ftype="tabular" />
+            <param name="sampleMetadata_in" value="sampleMetadata.csv" ftype="tabular" />
+			<param name="repmeasure" value="Subject" />
+            <param name="nblevel|option_level" value="onelevel" />
+            <param name="respL" value="Occasion" />
+			<param name="transfo" value="go" />
+			<param name="trans" value="log10" />
+			<param name="scale" value="pareto" />
+			<param name="center" value="false" />
             <output name="dataMatrix_out" file="dataMatrix_out.tsv" lines_diff="6" />
         </test>
   </tests>
@@ -116,13 +129,13 @@ withinVariation function decomposes the Within variation in the dataMatrix (One 
 withinVariation simply returns the Xw within matrix, which can be input in the other multivariate approaches already implemented in mixOmics 
 
 
-That tool make use of withinVariation function for cross-over design experiment (Repeated mesurement) from mixOmics R package _packurl
+That tool make use of withinVariation function for cross-over design experiment (Repeated mesurement) from mixOmics R package packurl_
 
-.._packurl: https://CRAN.R-project.org/package=mixOmics
+.. _packurl: https://CRAN.R-project.org/package=mixOmics
 
-For details information about mixOmics please connect to _link
+For details information about mixOmics please connect to link_
 
-.._link: http://mixomics.org/
+.. _link: http://mixomics.org/
 
 **Please cite:**
 Kim-Anh Le Cao, Florian Rohart, Ignacio Gonzalez, Sebastien Dejean with key contributors Benoit Gautier, Francois Bartolo, 

@@ -9,7 +9,7 @@
 #
 # R-Package: mixOmics
 #
-# Version: 1.2.1
+# Version: 1.2.2
 #
 # Author (wrapper): Xin-Yi Chua (xinyi.chua@qfab.org)
 # Author (mixOmics.multilevel): Benoit Liquet, Kim-Anh Le Cao
@@ -21,8 +21,9 @@
 #             sampleMetadata
 # params:
 #             respL (respL for one level & respL1 & respL2 for 2 levels)
-#             trans (need log21 or log10 transformation before withinVar)
+#             trans (need log2 or log10 transformation made before withinVar)
 #             scaling
+#             centering
 # output files:
 #             dataMatrix_out (after withinVariation correction )
 #             result (Robject) 
@@ -48,6 +49,10 @@ source_local <- function(fname) {
     base_dir <- dirname(substring(argv[grep("--file=", argv)], 8))
     source(paste(base_dir, fname, sep="/"))
 }
+
+#load transformation function
+source_local("transformation_script.R")
+
 print("first loadings OK")
 
 
@@ -57,7 +62,7 @@ print(listArguments)
 ## libraries
 ##----------
 
-cat('\n\nRunning mixOmics_multilevel.r\n');
+cat('\n\nRunning mixomics_multilevel.r\n');
 
 options(warn=-1);
 ##suppressPackageStartupMessages(library(mixOmics)); #not needed?
@@ -122,8 +127,16 @@ sep = "\t")
 flgF("identical(rownames(xMN), rownames(samDF))", txtC = "Sample names (or number) in the data matrix (first row) and sample metadata (first column) are not identical; use the 'Check Format' module in the 'Quality Control' section")
 
 ##Here Add transformation scripts if trans<>none
+if (listArguments[["transfo"]]=="go"){
+cat("\n Start transformation with trans=",listArguments[["trans"]]," scale=",listArguments[["scale"]]," center=",listArguments[["center"]],"\n", sep="")
+  if (listArguments[["trans"]]<>"none"){
+     metC <- listArguments[["trans"]]
+     xMN <- transformF(datMN = xMN, ## dataMatrix
+                           metC = metC) ## transformation method
+  }					   
+     xMN<-prep(xMN, scale=listArguments[["scale"]],center=listArguments[["center"]])
+}
 
-#prep(xMN, scale="Pareto")
 
 ##end tranformation
 
@@ -141,7 +154,7 @@ if (listArguments[["respL2"]]!="NULL"){
 	flgF("(listArguments[['respL']] %in% colnames(samDF))", txtC = paste("Level argument (",listArguments[['respL']],") must be one of the column names (first row) of your sample metadata", sep = ""))
 
   tryCatch({
-     result <- withinVariation(xMN, design=samDF[,c(listArguments[["repmeasure"]],listArguments[["respL"]])]);
+     result <- withinVariation(xMN, design=samDF[,c(listArguments[["repmeasure"]], listArguments[["respL"]])]);
   }, error = function(err) {
     stop(paste("There was an error when trying to run the Multilevel (one level) function.\n\n",err));
   });
