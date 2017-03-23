@@ -9,7 +9,7 @@
 #
 # R-Package: mixOmics
 #
-# Version: 1.2.2
+# Version: 1.2.3
 #
 # Author (wrapper): Xin-Yi Chua (xinyi.chua@qfab.org)
 # Author (mixOmics.multilevel): Benoit Liquet, Kim-Anh Le Cao
