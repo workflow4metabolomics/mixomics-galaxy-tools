@@ -1,4 +1,4 @@
-<tool id="mixomics_multilevel" name="Multilevel" version="0.7.4">
+<tool id="mixomics_multilevel" name="Multilevel" version="0.7.3">
 
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
@@ -28,14 +28,7 @@
 	   respL1 "$nblevel.respL1"
 	   respL2 "$nblevel.respL2"
 	  #end if
-<<<<<<< HEAD
 	  #if $transformation.option_transformation
-=======
-	  #if $transformation.option_transformation == "none"
-	   transfo "NULL"
-	  #end if
-	  #if $transformation.option_transformation == "transformation"
->>>>>>> 2cb8844126a6e8dca19b6a385d052f539c84289d
 	   transfo "go"
 	   trans "$transformation.trans"
 	   scale "$transformation.scale"
