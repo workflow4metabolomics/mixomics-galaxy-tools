@@ -19,7 +19,7 @@
 	  dataMatrix_in "$dataMatrix_in"
 	  sampleMetadata_in "$sampleMetadata_in"
 	  repmeasure "$repmeasure"
-	  
+	  transfo "none"
 	  #if $nblevel.option_level == "onelevel"
 	   respL "$nblevel.respL"
 	   respL2 "NULL"
