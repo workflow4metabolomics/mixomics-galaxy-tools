@@ -52,7 +52,7 @@ source_local <- function(fname) {
 
 #load transformation function
 source_local("transformation_script.R")
-
+# source("transformation_script.R")
 print("first loadings OK")
 
 
@@ -129,12 +129,18 @@ flgF("identical(rownames(xMN), rownames(samDF))", txtC = "Sample names (or numbe
 ##Here Add transformation scripts if trans<>none
 if (listArguments[["transfo"]]=="go"){
 cat("\n Start transformation with trans=",listArguments[["trans"]]," scale=",listArguments[["scale"]]," center=",listArguments[["center"]],"\n", sep="")
-  if (listArguments[["trans"]]<>"none"){
+  if (listArguments[["trans"]]!="none"){
      metC <- listArguments[["trans"]]
      xMN <- transformF(datMN = xMN, ## dataMatrix
                            metC = metC) ## transformation method
   }					   
-     xMN<-prep(xMN, scale=listArguments[["scale"]],center=listArguments[["center"]])
+    if (listArguments[["center"]]=="false"){
+		listArguments[["center"]]<-FALSE
+	}else{
+		listArguments[["center"]]<-TRUE
+	} 
+
+	xMN<-prep(xMN, scale=listArguments[["scale"]],center=listArguments[["center"]])
 }
 
 
