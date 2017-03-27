@@ -94,7 +94,18 @@
             <param name="respL" value="Occasion" />
             <output name="dataMatrix_out" file="dataMatrix_out.tsv" lines_diff="6" />
         </test>
-		
+	<test>
+            <param name="dataMatrix_in" value="dataMatrix.csv"  ftype="tabular" />
+            <param name="sampleMetadata_in" value="sampleMetadata.csv" ftype="tabular" />
+			<param name="repmeasure" value="Subject" />
+            <param name="nblevel|option_level" value="onelevel" />
+            <param name="respL" value="Occasion" />
+			<param name="transfo" value="go" />
+			<param name="trans" value="log10" />
+			<param name="scale" value="pareto" />
+			<param name="center" value="false" />
+            <output name="dataMatrix_out" file="dataMatrix_out_log10.tsv" lines_diff="6" />
+        </test>
      
   </tests>
   
