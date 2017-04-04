@@ -9,7 +9,7 @@
 #
 # R-Package: mixOmics
 #
-# Version: 1.2.2
+# Version: 1.2.3
 #
 # Author (wrapper): Xin-Yi Chua (xinyi.chua@qfab.org)
 # Author (mixOmics.multilevel): Benoit Liquet, Kim-Anh Le Cao
@@ -134,10 +134,10 @@ cat("\n Start transformation with trans=",listArguments[["trans"]]," scale=",lis
      xMN <- transformF(datMN = xMN, ## dataMatrix
                            metC = metC) ## transformation method
   }					   
-    if (listArguments[["center"]]=="false"){
-		listArguments[["center"]]<-FALSE
-	}else{
+    if (listArguments[["center"]]=="true"){
 		listArguments[["center"]]<-TRUE
+	}else{
+		listArguments[["center"]]<-FALSE
 	} 
 
 	xMN<-prep(xMN, scale=listArguments[["scale"]],center=listArguments[["center"]])

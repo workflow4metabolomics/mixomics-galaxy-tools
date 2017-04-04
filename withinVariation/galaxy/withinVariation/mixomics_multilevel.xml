@@ -1,4 +1,4 @@
-<tool id="mixomics_multilevel" name="Multilevel" version="0.7.3">
+<tool id="mixomics_multilevel" name="Multilevel" version="0.5.0">
 
    <description>Data transformation: Within matrix decomposition for repeated measurements (cross-over design) with mixOmics package</description>
     
