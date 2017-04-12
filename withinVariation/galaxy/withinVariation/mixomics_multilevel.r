@@ -65,6 +65,8 @@ print(listArguments)
 cat('\n\nRunning mixomics_multilevel.r\n');
 
 options(warn=-1);
+#remove rgl warning
+options(rgl.useNULL = TRUE);
 ##suppressPackageStartupMessages(library(mixOmics)); #not needed?
 
 
